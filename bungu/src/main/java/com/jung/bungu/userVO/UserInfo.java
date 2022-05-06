@@ -14,6 +14,13 @@ public class UserInfo {
 	public UserInfo() {
 		
 	}
+	
+	public UserInfo(String name, String id, String passwd) {
+		super();
+		this.name = name;
+		this.id = id;
+		this.passwd = passwd;
+	}
 
 	public UserInfo(String name, String id, String passwd, int monuy) {
 		super();
@@ -59,8 +66,12 @@ public class UserInfo {
 
 	@Override
 	public String toString() {
-		return name + "님이 모은 금액은 " + monuy + "원 입니다.";
+		System.out.println("============================================================");
+		System.out.println(name+"님의 ID는 "+id+"이고 모은 금액은 "+ monuy + "원 입니다.");
+		System.out.println("============================================================");
+		return null;
 	}
+
 	
 	
 }

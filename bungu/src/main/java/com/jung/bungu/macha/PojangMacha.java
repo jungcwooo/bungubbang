@@ -2,48 +2,130 @@ package com.jung.bungu.macha;
 
 import java.util.Scanner;
 
+import com.jung.bungu.service.BunguService;
+import com.jung.bungu.serviceImpl.BunguServiceImpl;
+import com.jung.bungu.userVO.UserInfo;
+
+import lombok.Data;
+
+@Data
 public class PojangMacha {
+	UserInfo vo = new UserInfo();
 	Scanner scn = new Scanner(System.in);
-	private int bMonuy; // 게임 시작 후 돈
-	private int bLike;	// 고객 만족도
-	private int bClean; // 위생지수
-	private int bCount; // 시간 카운트
-	private int bTime;  // 현재 진행 시간
-	private int menu;  // 입력 받을 메뉴
+	bungubbang make = new bungubbang();
 	
-	public void setting() {		// 게임시작시 초기화 해줘야할 값
-		bMonuy = 0;
-		bLike = 0;
-		bClean = 20;
-		bCount = 0;
-		bTime = 0;
-		
-		
-	}
-	
-	public void login() {
-		int menuNo = 0;
+//	Gaust gs = new Gaust();
+	BunguService service = new BunguServiceImpl();
 
-		System.out.println("메뉴를 입력하세요");
-		System.out.println("1. 로그인");
-		System.out.println("2. 회원가입");
-		System.out.println("3. 종료");
+//	
 
-		menuNo = Integer.parseInt(scn.next());
-		switch (menuNo) {
-		case 1:
-			
-			break;
-		case 2:
-			break;
-		case 3:
-			System.out.println("프로그램을 종료합니다");
-			break;
+	public void login() { // 로그인창
+		while (true) {
 
-		default:
-			System.out.println("잘못 입력 하셨습니다.");
-			
+			System.out.println("===============");
+			System.out.println("= 1. 로그인   =");
+			System.out.println("= 2. 회원가입 =");
+			System.out.println("= 3. 종료     =");
+			System.out.println("===============");
+
+			int menuNo = 0;
+			menuNo = Integer.parseInt(scn.next());
+
+			if (menuNo == 1) { // 로그인 ID,PASSWD를 입력 받아서 Login메서드에 넣어주고 디비에 저장된 ID PASSWD와 일치하면 리턴값 1을 받아
+				// game();메서드가 실행된다.
+				System.out.println("==== 로그인 ====");
+				System.out.print("ID를 입력해주세요 => ");
+				String lId = scn.next();
+				System.out.print("Passwd를 입력해주세요 => ");
+				String lPasswd = scn.next();
+
+				int result = service.Login(lId, lPasswd);
+
+				if (result == 1) {
+					
+					
+					service.savingMonuy(game(lId), lId);
+
+				} else {
+					continue;
+				}
+
+				break;
+			} else if (menuNo == 2) {
+				int result = service.insertuser(vo);
+				if (result == 1) {
+					System.out.println("회원가입이 완료되었습니다.");
+				} else {
+					System.out.println("정보를 잘못입력하셨습니다.");
+					continue;
+				}
+
+			} else if (menuNo == 3) {
+				System.out.println("프로그램을 종료합니다.");
+				break;
+			}
 		}
 
 	}
+
+	private int game(String lId) { // 로그인 할때 입력 받은 ID값을 계속 사용 (로그인 상태)
+		boolean isTure = true;
+		while (isTure) {
+			int monuy = 0;
+			System.out.println("====================");
+			System.out.println("= 1. 게임 시작     =");
+			System.out.println("= 2. 내 정보 조회  =");
+			System.out.println("= 3. 비밀번호 변경 =");
+			System.out.println("= 4. 회원 탈퇴     =");
+			System.out.println("= 5. 종료          =");
+			System.out.println("====================");
+
+			int menuNo = 0;
+			menuNo = Integer.parseInt(scn.next());
+
+			if (menuNo == 1) {
+				Thread bbangThread = new bungubbang();
+//				setting();
+				bbangThread.start();
+				monuy = make.gaustRun(lId);
+				
+				return monuy;
+			} else if (menuNo == 2) {
+
+				vo = service.selectuser(lId);
+				vo.toString();
+				return 0;
+
+			} else if (menuNo == 3) {
+
+				int result = service.updateuser(lId);
+				if (result == 1) {
+					System.out.println("비밀번호가 변경되셨습니다.");
+				} else {
+					System.out.println("변경에 실패하셨습니다");
+				}
+				return 0;
+
+			} else if (menuNo == 4) {
+
+				service.deleteuser(lId);
+				System.out.println("감사했습니다");
+
+				break;
+
+			} else if (menuNo == 5) {
+				System.out.println("프로그램을 종료합니다.");
+
+				break;
+			}
+		}
+		return 0;
+
+	}
+
+	public void gameRuner() {
+		
+	}
+	
+
 }
