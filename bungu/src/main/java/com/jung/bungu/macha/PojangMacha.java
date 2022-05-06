@@ -88,6 +88,7 @@ public class PojangMacha {
 //				setting();
 				bbangThread.start();
 				monuy = make.gaustRun(lId);
+				service.savingMonuy(monuy, lId);
 				
 				return monuy;
 			} else if (menuNo == 2) {

@@ -152,7 +152,7 @@ public class bungubbang extends Thread {
 
 			} else if (menuNo == 5) {
 				break;
-			} else if (menuNo == 6) { // 게임을 종료하고 첫번째 메뉴로 가고 싶은데 그게 안됨
+			} else if (menuNo == 6) { // 게임을 종료하고 첫번째 메뉴로 가고 싶은데 그게 안됨 그냥 종료되어버림
 				i = 99;
 				break;
 			} else {
