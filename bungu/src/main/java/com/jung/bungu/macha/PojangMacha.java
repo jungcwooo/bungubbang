@@ -9,15 +9,23 @@ import com.jung.bungu.userVO.UserInfo;
 import lombok.Data;
 
 @Data
-public class PojangMacha {
+public class PojangMacha extends Thread {
 	UserInfo vo = new UserInfo();
 	Scanner scn = new Scanner(System.in);
 	bungubbang make = new bungubbang();
+
+//	Clean cl = new Clean();
+	
+	
 	
 //	Gaust gs = new Gaust();
 	BunguService service = new BunguServiceImpl();
-
+	String lId;
 //	
+	public void run() {
+		login();
+	}
+	
 
 	public void login() { // 로그인창
 		while (true) {
@@ -35,7 +43,7 @@ public class PojangMacha {
 				// game();메서드가 실행된다.
 				System.out.println("==== 로그인 ====");
 				System.out.print("ID를 입력해주세요 => ");
-				String lId = scn.next();
+				lId = scn.next();
 				System.out.print("Passwd를 입력해주세요 => ");
 				String lPasswd = scn.next();
 
@@ -84,9 +92,15 @@ public class PojangMacha {
 			menuNo = Integer.parseInt(scn.next());
 
 			if (menuNo == 1) {
-				Thread bbangThread = new bungubbang();
-//				setting();
-				bbangThread.start();
+//				Runnable bba = new bungubbang();
+//				Thread bbangThread = new Thread(bba);
+			
+				make.setting();
+//				bbangThread.start();
+//				cl.bb = make;
+				
+				
+				
 				monuy = make.gaustRun(lId);
 				service.savingMonuy(monuy, lId);
 				
@@ -95,7 +109,7 @@ public class PojangMacha {
 
 				vo = service.selectuser(lId);
 				vo.toString();
-				return 0;
+				continue; // 내 정보를 조회 한 후 다시 메뉴로 돌아가기 위해 컨티뉴
 
 			} else if (menuNo == 3) {
 
@@ -105,14 +119,14 @@ public class PojangMacha {
 				} else {
 					System.out.println("변경에 실패하셨습니다");
 				}
-				return 0;
+				continue;  // 비밀 번호는 변경한 후 다시 메뉴로 돌아가기 위해 컨티뉴, 원래 비번 바꾸고 다시 로그인은 국룰이지만
 
 			} else if (menuNo == 4) {
 
 				service.deleteuser(lId);
 				System.out.println("감사했습니다");
 
-				break;
+				break; // 탈퇴를 하고 다시 메뉴로 돌아가는것을 방지하기 위해
 
 			} else if (menuNo == 5) {
 				System.out.println("프로그램을 종료합니다.");
@@ -127,6 +141,8 @@ public class PojangMacha {
 	public void gameRuner() {
 		
 	}
-	
+	public void gameOver() {
+		game(lId);
+	}
 
 }

@@ -27,7 +27,7 @@ public class DataSource {
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, passwd);
-			System.out.println("DB 연결 성공!!!!!!!!!!!!!!!");
+//			System.out.println("DB 연결 성공!!!!!!!!!!!!!!!");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			System.out.println("ㅋㅋ실퍀ㅋㅋ");
