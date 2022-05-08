@@ -54,9 +54,9 @@ public class bungubbang extends Thread {
 	public int gaustRun(String lId) {
 		int sum = 0;
 		int monuy = 0;
-		exit_Label:
 		while (i < 30) {// 하루 30명의 손님만 받음
-			int timer = (int) (3000 * (Math.random()) + 3000); // 랜덤한시간으로 손님이 오게하기위해 10~20초(차후 조정 너무 빠름)
+			int timer = (int) (3000 * (Math.random())); // 랜덤한시간으로 손님이 오게하기위해 0~3초
+			// (멀티 쓰레드로 여러가지 해보았으나 실패) 다음에는 멀티쓰레드를 고려해서 클래스와 메서드를 설계해야 할것
 			try {
 //				Runnable cl = new Clean();
 //				Thread cle = new Thread(cl);
@@ -69,7 +69,7 @@ public class bungubbang extends Thread {
 				System.out.println("☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★");
 
 //				cle.start();
-				ti.start();
+//				ti.start();
 				join();// 한명의 손님의 주문이 끝나지 않으면 다음손님은안온다
 				makingmenu(); // 붕어빵 판매 & 굽기 & 청소 등
 				sleep(timer);
@@ -81,7 +81,7 @@ public class bungubbang extends Thread {
 		System.out.println("게임이 종료 되었습니다.");
 		sum += monuy;
 
-		return monuy;
+		return bMonuy;
 
 	}
 
@@ -150,14 +150,15 @@ public class bungubbang extends Thread {
 
 	public void makingmenu() {
 		int sum = 0;
-		while (true) {
+		int y = 0;
+		while (y == 0) {
 			System.out.println("□■□■□■□■□■□■□■□■□■□■");
 			System.out.println("■ 1. 붕어빵 굽기   □");
 			System.out.println("□ 2. 붕어빵 판매   ■");
 			System.out.println("■ 3. 붕어빵 갯수   □");
 			System.out.println("□ 4. 청소하기      ■");
 			System.out.println("■ 5. 현재 상황     □"); // 여기에 모인 돈 , 몇번쨰 손님인지, 청결도, 만족도 체크
-			System.out.println("□ 6. 손님 보내기   ■");
+			System.out.println("□ 6. 다음 손님     ■");
 			System.out.println("■ 7. 게임 끝내기   □");
 			System.out.println("□■□■□■□■□■□■□■□■□■□■");
 
@@ -177,7 +178,7 @@ public class bungubbang extends Thread {
 				number(); // 붕어빵이 몇개 남아있는지 확인하는 메서드
 
 			} else if (menuNo == 4) {
-				clean(); // 청결도를 올리는 거니까 자동으로 청결도를 내리게 하는 스레드 써야함
+				cleaner(); // 청결도를 올리는 거니까 자동으로 청결도를 내리게 하는 스레드 써야함
 
 			} else if (menuNo == 5) {
 				checknow();
@@ -186,17 +187,29 @@ public class bungubbang extends Thread {
 				// 손님이 보내진다 (나중에 진상 손님이나 무리한 요구를 하는 손님들을 만들어 그냥 보내게 만들자)
 				break;
 			} else if (menuNo == 7) { // 게임을 종료하고 첫번째 메뉴로 가고 싶은데 그게 안됨 그냥 종료되어버림
-				i = 99; // 손님의 수를 강제로 30 이상으로 만들어서 게임이 종료되게 함.
-				break;
+				System.out.println("정말로 진행중인 게임을 나가시겠습니까? (Y/N)");
+				String check = scn.next();
+				if (check.equalsIgnoreCase("y")) {
+					i = 99; // 손님의 수를 강제로 30 이상으로 만들어서 게임이 종료되게 함.
+					y = 99;
+					break;
+				} else if(check.equalsIgnoreCase("n")){
+					System.out.println("취소하셨습니다");
+				}else {
+					System.out.println("잘못 입력하셨습니다.");
+				}
+
 			} else {
-				break;
+				System.out.println("잘못 입력하셨습니다");
+				System.out.println("1 ~ 7번의 메뉴를 입력해주세요.");
 			}
 
 		}
 	}
 
 	private void making() { // 붕어빵굽기
-		while (true) {
+		int z = 0;
+		while (z == 0) {
 			System.out.println("□■□■□■□■□■□■□■□■□■□■□■□■");
 			System.out.println("■ 1. 팥붕어빵 굽기     □");
 			System.out.println("□ 2. 슈크림붕어빵 굽기 ■");
@@ -212,12 +225,16 @@ public class bungubbang extends Thread {
 				if (x > 0 && x <= 5) {
 					if ((x + redbeen) >= 0 && (x + redbeen) <= 10) {
 						redbeen += x;
-						bClean -= x*10;
+						bClean -= x;
+						System.out.println("팥붕어빵 " + redbeen + "개를 구웠습니다");
+						System.out.println("청결도 -" + x);
 						if (bClean < -15) {
 							System.out.println("위생 점검 왔습니다.");
 							System.out.println("위생이 이게 뭡니까? 영업중지입니다 철거하세요");
+							i = 99;
+							z = 99;
 							break;
-							
+
 						}
 					} else {
 						System.out.println("너무 많이 구웠습니다 자리가 부족합니다");
@@ -231,10 +248,14 @@ public class bungubbang extends Thread {
 					if ((x + custard) >= 0 && (x + custard) <= 10) {
 						custard += x;
 						bClean -= x;
+						System.out.println("슈크림붕어빵 " + custard + "개를 구웠습니다");
+						System.out.println("청결도 -" + x);
 						if (bClean < -15) {
 							System.out.println("위생 점검 왔습니다.");
 							System.out.println("위생이 이게 뭡니까? 영업중지입니다 철거하세요");
-							break ;
+							i = 99;
+							z = 99;
+							break;
 						}
 					} else {
 						System.out.println("너무 많이 구웠습니다 자리가 부족합니다");
@@ -326,13 +347,17 @@ public class bungubbang extends Thread {
 	}
 
 	private void clean() { // 청결도 자동으로 내려주는 메서드
-		
-		bClean +=15;
+		if (bClean < -15) {
+			System.out.println("위생 점검 왔습니다.");
+			System.out.println("위생이 이게 뭡니까? 영업중지입니다 철거하세요");
+		}
+
 	}
 
 	private void cleaner() {// 청소 메서드
 		// BClean= 15;
-		System.out.println("청소");
+		bClean += 15;
+		System.out.println("뽀득뽀득 청소 완료 청결도 + 15");
 	}
 
 	private void checknow() {

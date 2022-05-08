@@ -51,7 +51,7 @@ public class BunguServiceImpl implements BunguService {
 	public List<UserInfo> userRank() {
 		List<UserInfo> list = new ArrayList<UserInfo>();
 
-		String sql = "SELECT * FROM USERINFO ORDER BY = MONUY";
+		String sql = "SELECT * FROM USERINFO ORDER BY MONUY";
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);

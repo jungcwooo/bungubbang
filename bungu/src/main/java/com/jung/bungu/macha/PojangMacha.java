@@ -1,5 +1,6 @@
 package com.jung.bungu.macha;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.jung.bungu.service.BunguService;
@@ -15,17 +16,15 @@ public class PojangMacha extends Thread {
 	bungubbang make = new bungubbang();
 
 //	Clean cl = new Clean();
-	
-	
-	
+
 //	Gaust gs = new Gaust();
 	BunguService service = new BunguServiceImpl();
 	String lId;
+
 //	
 	public void run() {
 		login();
 	}
-	
 
 	public void login() { // 로그인창
 		while (true) {
@@ -33,6 +32,7 @@ public class PojangMacha extends Thread {
 			System.out.println("===============");
 			System.out.println("= 1. 로그인   =");
 			System.out.println("= 2. 회원가입 =");
+			System.out.println("= 3. 랭킹     =");
 			System.out.println("= 3. 종료     =");
 			System.out.println("===============");
 
@@ -50,8 +50,7 @@ public class PojangMacha extends Thread {
 				int result = service.Login(lId, lPasswd);
 
 				if (result == 1) {
-					
-					
+
 					service.savingMonuy(game(lId), lId);
 
 				} else {
@@ -69,6 +68,12 @@ public class PojangMacha extends Thread {
 				}
 
 			} else if (menuNo == 3) {
+				List li = service.userRank();
+				li.toString();
+
+				continue;
+
+			} else if (menuNo == 4) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
 			}
@@ -94,16 +99,14 @@ public class PojangMacha extends Thread {
 			if (menuNo == 1) {
 //				Runnable bba = new bungubbang();
 //				Thread bbangThread = new Thread(bba);
-			
+
 				make.setting();
 //				bbangThread.start();
 //				cl.bb = make;
-				
-				
-				
+
 				monuy = make.gaustRun(lId);
 				service.savingMonuy(monuy, lId);
-				
+
 				return monuy;
 			} else if (menuNo == 2) {
 
@@ -119,7 +122,7 @@ public class PojangMacha extends Thread {
 				} else {
 					System.out.println("변경에 실패하셨습니다");
 				}
-				continue;  // 비밀 번호는 변경한 후 다시 메뉴로 돌아가기 위해 컨티뉴, 원래 비번 바꾸고 다시 로그인은 국룰이지만
+				continue; // 비밀 번호는 변경한 후 다시 메뉴로 돌아가기 위해 컨티뉴, 원래 비번 바꾸고 다시 로그인은 국룰이지만
 
 			} else if (menuNo == 4) {
 
@@ -139,8 +142,9 @@ public class PojangMacha extends Thread {
 	}
 
 	public void gameRuner() {
-		
+
 	}
+
 	public void gameOver() {
 		game(lId);
 	}
