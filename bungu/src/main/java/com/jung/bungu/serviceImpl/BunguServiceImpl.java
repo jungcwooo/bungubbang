@@ -181,6 +181,7 @@ public class BunguServiceImpl implements BunguService {
 
 		String sql = "UPDATE USERINFO SET MONUY = MONUY - ? WHERE ID = ?";
 		try {
+			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, Monuy);
 			psmt.setString(2, lId);
@@ -200,6 +201,7 @@ public class BunguServiceImpl implements BunguService {
 
 		String sql = "UPDATE USERINFO SET HAVECLEANER =  ? WHERE ID = ?";
 		try {
+			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, Product);
 			psmt.setString(2, lId);
@@ -219,6 +221,7 @@ public class BunguServiceImpl implements BunguService {
 
 		String sql = "UPDATE USERINFO SET HAVETLE =  ? WHERE ID = ?";
 		try {
+			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, Product);
 			psmt.setString(2, lId);
@@ -300,6 +303,7 @@ public class BunguServiceImpl implements BunguService {
 
 		if (check.equalsIgnoreCase("y")) {
 			try {
+				conn = dao.getConnection();
 				psmt = conn.prepareStatement(sql);
 				psmt.setString(1, lId);
 				n = psmt.executeUpdate();
@@ -328,6 +332,7 @@ public class BunguServiceImpl implements BunguService {
 		// 게임 종료 시 남은 돈을 DB에 저장할 메서드
 		String sql = "UPDATE USERINFO SET MONUY = MONUY + ? WHERE ID = ?";
 		try {
+			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, Monuy);
 			psmt.setString(2, lId);
@@ -336,6 +341,7 @@ public class BunguServiceImpl implements BunguService {
 			return 1;
 
 		} catch (Exception e) {
+			System.out.println("에러");
 			e.printStackTrace();
 		} finally {
 			close();
@@ -361,7 +367,9 @@ public class BunguServiceImpl implements BunguService {
 					psmt.setString(1, userId);
 					rs = psmt.executeQuery();
 					if (rs.next()) {
-						System.out.println(rs.getString(1) + "님 환영합니다.");
+						System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+						System.out.println("\t"+rs.getString(1) + "님 환영합니다.");
+						System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 						return 1; // 로그인 성공
 					}
 				} else {
@@ -393,6 +401,7 @@ public class BunguServiceImpl implements BunguService {
 			if (conn != null)
 				conn.close();
 		} catch (Exception e) {
+			System.out.println("여기서 오류");
 			e.printStackTrace();
 		}
 	}

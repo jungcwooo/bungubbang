@@ -35,21 +35,22 @@ public class PojangMacha extends Thread {
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
+			System.out.print("선택 => ");
 			menuNo = Integer.parseInt(scn.next());
 
 			if (menuNo == 1) { // 로그인 ID,PASSWD를 입력 받아서 Login메서드에 넣어주고 디비에 저장된 ID PASSWD와 일치하면 리턴값 1을 받아
 				// game();메서드가 실행된다.
-				System.out.println("==== 로그인 ====");
-				System.out.print("ID를 입력해주세요 => ");
+				System.out.println("━━━━━━━━━━━━━로그인━━━━━━━━━━━━━━");
+				System.out.print("   ID를 입력해주세요 => ");
 				lId = scn.next();
-				System.out.print("Passwd를 입력해주세요 => ");
+				System.out.print("   Passwd를 입력해주세요 => ");
 				String lPasswd = scn.next();
 
 				int result = service.Login(lId, lPasswd);
 
 				if (result == 1) {
 
-					service.savingMonuy(game(lId), lId);
+					game(lId);
 
 				} else {
 					continue;
@@ -92,8 +93,9 @@ public class PojangMacha extends Thread {
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
+			System.out.print("선택 => ");
 			menuNo = Integer.parseInt(scn.next());
-
+			System.out.println();
 			if (menuNo == 1) {
 //				Runnable bba = new bungubbang();
 //				Thread bbangThread = new Thread(bba);
@@ -141,8 +143,10 @@ public class PojangMacha extends Thread {
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
+			System.out.print("선택 => ");
 			menuNo = Integer.parseInt(scn.next());
-
+			System.out.println();
+			
 			if (menuNo == 1) {
 				vo = service.selectuser(lId);
 				System.out.println(
@@ -217,8 +221,9 @@ public class PojangMacha extends Thread {
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
+			System.out.print("선택 => ");
 			menuNo = Integer.parseInt(scn.next());
-
+			System.out.println();
 			if (menuNo == 1) {
 				tleUpgade();
 			} else if (menuNo == 2) {
@@ -240,7 +245,7 @@ public class PojangMacha extends Thread {
 		int upgade3 = 30000;
 
 		if (havecleaner == 0) {
-			System.out.println("업그레이드 하시겠습니까?  (Y/N) ");
+			System.out.println("※ 업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("가격 : 10,000원");
 			String check = scn.next();
 
@@ -263,7 +268,7 @@ public class PojangMacha extends Thread {
 				System.out.println("취소 하셨습니다.");
 			}
 		} else if (havecleaner == upgade1) {
-			System.out.println("업그레이드 하시겠습니까? (Y/N) ");
+			System.out.println("※ 업그레이드 하시겠습니까? (Y/N) ");
 			System.out.println("가격 : 20,000원");
 
 			String check = scn.next();
@@ -288,7 +293,7 @@ public class PojangMacha extends Thread {
 			}
 
 		} else if (havecleaner == upgade2) {
-			System.out.println("업그레이드 하시겠습니까? (Y/N) ");
+			System.out.println("※ 업그레이드 하시겠습니까? (Y/N) ");
 			System.out.println("가격 : 30,000원");
 			String check = scn.next();
 
@@ -323,7 +328,7 @@ public class PojangMacha extends Thread {
 		int upgade3 = 30000;
 
 		if (havetle == 0) {
-			System.out.println("업그레이드 하시겠습니까?  (Y/N) ");
+			System.out.println("※ 업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("가격 : 10,000원");
 			String check = scn.next();
 
@@ -347,7 +352,7 @@ public class PojangMacha extends Thread {
 				System.out.println("취소 하셨습니다.");
 			}
 		} else if (havetle == upgade1) {
-			System.out.println("업그레이드 하시겠습니까? (Y/N) ");
+			System.out.println("※ 업그레이드 하시겠습니까? (Y/N) ");
 			System.out.println("가격 : 20,000원");
 
 			String check = scn.next();
@@ -372,7 +377,7 @@ public class PojangMacha extends Thread {
 			}
 
 		} else if (havetle == upgade2) {
-			System.out.println("업그레이드 하시겠습니까? (Y/N) ");
+			System.out.println("※ 업그레이드 하시겠습니까? (Y/N) ");
 			System.out.println("가격 : 30,000원");
 			String check = scn.next();
 
