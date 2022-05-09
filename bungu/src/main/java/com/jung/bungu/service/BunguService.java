@@ -20,8 +20,13 @@ public interface BunguService {
 
 	int Login(String userId, String userPasswd);
 
-	int savingMonuy(int Monuy, String id);
+	int savingMonuy(int Monuy, String id); // 돈저장
 
+	int userMonuy(String lId); // 사용자가 가진 돈반환
 
-
+	int useMonuy(int Monuy, String lId); // 사용자가 장비를 삿을때 돈 차감
+	int upCleaner(int Product, String lId); // 구매한 청소도구 값 저장
+	int haveCleaner(String lId); // 가지고있는 청소도구 값 반환
+	int upTle(int Product, String lId) ;
+	int haveCase(String lId);
 }

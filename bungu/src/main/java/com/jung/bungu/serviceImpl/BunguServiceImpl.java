@@ -3,6 +3,7 @@ package com.jung.bungu.serviceImpl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -43,6 +44,8 @@ public class BunguServiceImpl implements BunguService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 
 		return list;
@@ -51,7 +54,7 @@ public class BunguServiceImpl implements BunguService {
 	public List<UserInfo> userRank() {
 		List<UserInfo> list = new ArrayList<UserInfo>();
 
-		String sql = "SELECT * FROM USERINFO ORDER BY MONUY";
+		String sql = "SELECT * FROM USERINFO ORDER BY MONUY DESC";
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
@@ -68,6 +71,8 @@ public class BunguServiceImpl implements BunguService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 
 		return list;
@@ -94,15 +99,146 @@ public class BunguServiceImpl implements BunguService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			close();
+		}
 		return vo;
+	}
+
+	public int userMonuy(String lId) { // 한 유저가 가지고 있는 돈을 반환
+		int haveMonuy = 0;
+		String sql = "SELECT MONUY FROM USERINFO WHERE ID = ?";
+		try {
+			conn = dao.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, lId);
+			rs = psmt.executeQuery();
+
+			if (rs.next()) {
+				vo = new UserInfo();
+				vo.setMonuy(rs.getInt("monuy"));
+
+				haveMonuy = vo.getMonuy();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return haveMonuy;
+	}
+
+	public int haveCleaner(String lId) { // 한 유저가 가지고 청소도구 장비를 반환
+		int haveCleaner = 0;
+		String sql = "SELECT HAVECLEANER FROM USERINFO WHERE ID = ?";
+		try {
+			conn = dao.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, lId);
+			rs = psmt.executeQuery();
+
+			if (rs.next()) {
+				vo = new UserInfo();
+				vo.setHavecleaner(rs.getInt("HAVECLEANER"));
+
+				haveCleaner = vo.getHavecleaner();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return haveCleaner;
+	}
+
+	public int haveCase(String lId) { // 한 유저가 가지고 붕어빵틀 장비를 반환
+		int haveCase = 0;
+		String sql = "SELECT HAVETLE FROM USERINFO WHERE ID = ?";
+		try {
+			conn = dao.getConnection();
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, lId);
+			rs = psmt.executeQuery();
+
+			if (rs.next()) {
+				vo = new UserInfo();
+				vo.setHavetle(rs.getInt("HAVETLE"));
+
+				haveCase = vo.getHavetle();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return haveCase;
+	}
+
+	public int useMonuy(int Monuy, String lId) { // 장비를 업그레이드할때 디비에 돈을 차감하는 메서드 + 장비 업글
+
+		String sql = "UPDATE USERINFO SET MONUY = MONUY - ? WHERE ID = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, Monuy);
+			psmt.setString(2, lId);
+			psmt.executeQuery();
+
+			return 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return -2;
+	}
+
+	public int upCleaner(int Product, String lId) { // 장비를 업그레이드 청소도구
+
+		String sql = "UPDATE USERINFO SET HAVECLEANER =  ? WHERE ID = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, Product);
+			psmt.setString(2, lId);
+			psmt.executeQuery();
+
+			return 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return -2;
+	}
+
+	public int upTle(int Product, String lId) { // 장비를 업그레이드 빵틀
+
+		String sql = "UPDATE USERINFO SET HAVETLE =  ? WHERE ID = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, Product);
+			psmt.setString(2, lId);
+			psmt.executeQuery();
+
+			return 1;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return -2;
 	}
 
 	@Override
 	public int insertuser(UserInfo user) { // 회원가입 디비
 		int n = 0;
 
-		String sql = "INSERT INTO USERINFO VALUES (?,?,?,0)"; // 이름, ID , 비밀번호 , 0 으로 생성
+		String sql = "INSERT INTO USERINFO VALUES (?,?,?,0,0)"; // 이름, ID , 비밀번호 , 돈 0 , 장비 0 으로 생성
 		try {
 
 			vo = new UserInfo();
@@ -119,11 +255,15 @@ public class BunguServiceImpl implements BunguService {
 			psmt.setString(2, lId);
 			psmt.setString(3, lPasswd);
 			n = psmt.executeUpdate();
-			
 
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.out.println("중복된 ID입니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+			System.out.println("정보를 잘못입력하셨습니다.");
+		} finally {
+			close();
+		}
 
 		return n;
 	}
@@ -140,11 +280,12 @@ public class BunguServiceImpl implements BunguService {
 			psmt.setString(2, lId);
 
 			n = psmt.executeUpdate();
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			close();
+		}
 
 		return n;
 	}
@@ -154,24 +295,26 @@ public class BunguServiceImpl implements BunguService {
 		int n = 0;
 		String sql = "DELETE FROM USERINFO WHERE ID = ?";
 		System.out.println("정말로 회원탈퇴를 진행하시겠습니까?(Y/N)");
-		
+
 		String check = scn.next();
-		
+
 		if (check.equalsIgnoreCase("y")) {
 			try {
 				psmt = conn.prepareStatement(sql);
 				psmt.setString(1, lId);
 				n = psmt.executeUpdate();
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 
-		} else if(check.equalsIgnoreCase("n")){
-			
+			} finally {
+				close();
+			}
+		} else if (check.equalsIgnoreCase("n")) {
+
 			System.out.println("취소 하셨습니다.");
 			System.out.println("이전 페이지로 돌아갑니다.");
 			return 0;
-			
+
 		} else {
 			System.out.println("잘못입력하셨습니다.");
 			return 0;
@@ -194,6 +337,8 @@ public class BunguServiceImpl implements BunguService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			close();
 		}
 		return -2;
 	}
@@ -231,7 +376,9 @@ public class BunguServiceImpl implements BunguService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			close();
+		}
 
 		return -2;
 

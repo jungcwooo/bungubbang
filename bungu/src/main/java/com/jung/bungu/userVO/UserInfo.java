@@ -8,6 +8,8 @@ public class UserInfo {
 	private String id;
 	private String passwd;
 	private int monuy;
+	private int havecleaner;
+	private int havetle;
 	
 	
 	
@@ -66,10 +68,19 @@ public class UserInfo {
 
 	@Override
 	public String toString() {
-		System.out.println("============================================================");
-		System.out.println(name+"님의 ID는 "+id+"이고 모은 금액은 "+ monuy + "원 입니다.");
-		System.out.println("============================================================");
-		return null;
+		
+		System.out.printf(" 이름 : %4s, ID : %5s, 가진 금액 : %6d원 ",name,id,monuy);
+		return "";
+	}
+
+	public UserInfo(String name, String id, String passwd, int monuy, int havecleaner, int havetle) {
+		super();
+		this.name = name;
+		this.id = id;
+		this.passwd = passwd;
+		this.monuy = monuy;
+		this.havecleaner = havecleaner;
+		this.havetle = havetle;
 	}
 	
 
