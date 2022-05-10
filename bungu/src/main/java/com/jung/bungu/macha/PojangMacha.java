@@ -97,12 +97,8 @@ public class PojangMacha extends Thread {
 			menuNo = Integer.parseInt(scn.next());
 			System.out.println();
 			if (menuNo == 1) {
-//				Runnable bba = new bungubbang();
-//				Thread bbangThread = new Thread(bba);
 
 				make.setting();
-//				bbangThread.start();
-//				cl.bb = make;
 				monuy = make.gaustRun(lId);
 				service.savingMonuy(monuy, lId);
 

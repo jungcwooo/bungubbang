@@ -20,7 +20,6 @@ import com.jung.bungu.serviceImpl.BunguServiceImpl;
 public class bungubbang extends Thread {
 
 	Clean cl = new Clean();
-	Time ti = new Time();
 	PojangMacha po;
 	Scanner scn = new Scanner(System.in);
 	String lId = "";
@@ -65,9 +64,12 @@ public class bungubbang extends Thread {
 	int sumTime = 0; // 게임시간 저장
 
 	public int gaustRun(String lId) {
+//		Time ti = new Time();
 		this.lId = lId;
 		int sum = 0;
 		int monuy = 0;
+//		ti.start();
+		showSec();
 		while (i < 30) {// 하루 30명의 손님만 받음
 			int timer = (int) (3000 * (Math.random())); // 랜덤한시간으로 손님이 오게하기위해 0~3초
 			// (멀티 쓰레드로 여러가지 해보았으나 실패) 다음에는 멀티쓰레드를 고려해서 클래스와 메서드를 설계해야 할것
@@ -101,7 +103,20 @@ public class bungubbang extends Thread {
 	}
 
 	private void showSec() {
-		System.out.println((++sec) + "초 경과");
+		
+		try {
+			sleep(10000);
+			sec += 10;
+			System.out.println((++sec) + "초 경과");
+			
+			if (bTime >= 10) {
+				System.out.println("게임 시간이 끝났습니다.");
+				i = 99;
+				
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -210,6 +225,16 @@ public class bungubbang extends Thread {
 				System.out.println("[  정말로 진행중인 게임을 나가시겠습니까? (Y/N)  ]");
 				String check = scn.next();
 				if (check.equalsIgnoreCase("y")) {
+					try {
+						System.out.println("게임 종료 중 . .");
+						sleep(1000);
+						System.out.println("게임 종료 중 . . . .");
+						sleep(1000);
+						System.out.println("게임 종료 중 . . . . . .");
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
 					i = 99; // 손님의 수를 강제로 30 이상으로 만들어서 게임이 종료되게 함.
 					y = 99;
 					break;

@@ -1,22 +1,25 @@
 package com.jung.bungu.macha;
 
 public class Time extends Thread {
-	public bungubbang bb;
-
+	bungubbang bb;
+	int bTime =0; // 현재 진행 시간
+	
 	public void run() {
-		bb = new bungubbang();
+		bb =new bungubbang();
+		System.out.println("[ 게임 시작!! ]");
 		while (true) {
 
 			try {
 				
 
 				Thread.sleep(10000);
-				bb.setbTime(bb.getbTime()+10); 
-				System.out.println(bb.getbTime() + "초 경과");
+				bTime += 10; 
+				System.out.println(bTime + "초 경과");
 
-				if (bb.getbTime() >= 180) {
+				if (bTime >= 10) {
 					System.out.println("게임 시간이 끝났습니다.");
-
+					bb.i = 99;
+					break;
 				}
 
 			} catch (InterruptedException e) {
