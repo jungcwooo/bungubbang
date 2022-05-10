@@ -19,7 +19,7 @@ import com.jung.bungu.serviceImpl.BunguServiceImpl;
 
 public class bungubbang extends Thread {
 
-	Clean cl = new Clean();
+//	Clean cl = new Clean();
 	PojangMacha po;
 	Scanner scn = new Scanner(System.in);
 	String lId = "";
@@ -69,7 +69,7 @@ public class bungubbang extends Thread {
 		int sum = 0;
 		int monuy = 0;
 //		ti.start();
-		showSec();
+//		showSec();
 		while (i < 30) {// 하루 30명의 손님만 받음
 			int timer = (int) (3000 * (Math.random())); // 랜덤한시간으로 손님이 오게하기위해 0~3초
 			// (멀티 쓰레드로 여러가지 해보았으나 실패) 다음에는 멀티쓰레드를 고려해서 클래스와 메서드를 설계해야 할것
@@ -185,15 +185,15 @@ public class bungubbang extends Thread {
 		int sum = 0;
 		int y = 0;
 		while (y == 0) {
-			System.out.println("\t\t┏━━━━━━━━━━━━━━━━━━━┓");
-			System.out.println("\t\t  1. 붕어빵 굽기    ");
-			System.out.println("\t\t  2. 붕어빵 판매    ");
-			System.out.println("\t\t  3. 붕어빵 갯수    ");
-			System.out.println("\t\t  4. 청소하기       ");
-			System.out.println("\t\t  5. 현재 상황      "); // 여기에 모인 돈 , 몇번쨰 손님인지, 청결도, 만족도 체크
-			System.out.println("\t\t  6. 다음 손님      ");
-			System.out.println("\t\t  7. 게임 끝내기    ");
-			System.out.println("\t\t┗━━━━━━━━━━━━━━━━━━━┛");
+			System.out.println("\t\t ┏━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("\t\t   1. 붕어빵 굽기    ");
+			System.out.println("\t\t   2. 붕어빵 판매    ");
+			System.out.println("\t\t   3. 붕어빵 갯수    ");
+			System.out.println("\t\t   4. 청소하기       ");
+			System.out.println("\t\t   5. 현재 상황      "); // 여기에 모인 돈 , 몇번쨰 손님인지, 청결도, 만족도 체크
+			System.out.println("\t\t   6. 다음 손님      ");
+			System.out.println("\t\t   7. 게임 끝내기    ");
+			System.out.println("\t\t ┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
 			System.out.print("선택 => ");

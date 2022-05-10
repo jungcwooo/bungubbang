@@ -84,6 +84,9 @@ public class UserInfo {
 	}
 	
 
+	public void rank() {
+		System.out.printf("위 :\t%4s\t| 가진 금액 : %5s원",name,monuy);
+	}
 	
 	
 }

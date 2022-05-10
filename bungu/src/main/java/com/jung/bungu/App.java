@@ -1,5 +1,6 @@
 package com.jung.bungu;
 
+//import com.jung.bungu.BFrame.BFrame;
 import com.jung.bungu.macha.Clean;
 import com.jung.bungu.macha.PojangMacha;
 import com.jung.bungu.macha.bungubbang;
@@ -19,10 +20,11 @@ public class App
     	PojangMacha macha = new PojangMacha();
     	UserInfo vo = new UserInfo();
     	bungubbang make = new bungubbang();
-    	Clean cl = new Clean();
+//    	Clean cl = new Clean();
     	
     	
     	macha.start();
+//    	new BFrame();
     	
     	
     	

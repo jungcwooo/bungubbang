@@ -241,10 +241,11 @@ public class BunguServiceImpl implements BunguService {
 	public int insertuser(UserInfo user) { // 회원가입 디비
 		int n = 0;
 
-		String sql = "INSERT INTO USERINFO VALUES (?,?,?,0,0)"; // 이름, ID , 비밀번호 , 돈 0 , 장비 0 으로 생성
+		String sql = "INSERT INTO USERINFO VALUES (?,?,?,0,0,0)"; // 이름, ID , 비밀번호 , 돈 0 , 장비 0 으로 생성
 		try {
 
 			vo = new UserInfo();
+			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			System.out.println("=== 회원가입 ===");
 			System.out.print("이름를 입력해주세요 => ");
@@ -276,6 +277,7 @@ public class BunguServiceImpl implements BunguService {
 		int n = 0;
 		String sql = "UPDATE USERINFO SET Passwd = ?  WHERE ID = ?";
 		try {
+			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
 			System.out.println("변경 하실 비밀번호를 입력하세요");
 			String upPasswd = scn.next();

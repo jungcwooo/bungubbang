@@ -173,7 +173,7 @@ public class PojangMacha extends Thread {
 
 				System.out.println(make.cleanerpro + " , 배율 : " + make.clnumber);
 				System.out.println(make.tlepro + " , 갯수 : " + make.tlnumber);
-
+				
 			} else if (menuNo == 5) {
 				isTure = false;
 				break;
@@ -191,14 +191,14 @@ public class PojangMacha extends Thread {
 	}
 
 	private void rank() {
-		List li = service.userRank();
-		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+		List<UserInfo> li = service.userRank();
+		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 		for (int i = 0; i < li.size(); i++) {
-			System.out.print("  " + (i + 1) + "위 -");
-			li.get(i).toString();
+			System.out.print("  " + (i + 1) );
+			li.get(i).rank();
 			System.out.println();
 		}
-		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 		try {
 			sleep(2000);
 		} catch (InterruptedException e) {
