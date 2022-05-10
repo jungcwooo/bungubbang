@@ -12,7 +12,7 @@ import com.jung.bungu.dao.DataSource;
 import com.jung.bungu.service.BunguService;
 import com.jung.bungu.userVO.UserInfo;
 
-public class BunguServiceImpl implements BunguService {
+public class BunguServiceImpl extends Thread implements BunguService {
 	private DataSource dao = DataSource.getInstance();
 	private Connection conn = dao.getConnection(); // connection연결
 
@@ -266,6 +266,11 @@ public class BunguServiceImpl implements BunguService {
 			e.printStackTrace();
 			System.out.println("정보를 잘못입력하셨습니다.");
 		} finally {
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			close();
 		}
 
@@ -369,9 +374,6 @@ public class BunguServiceImpl implements BunguService {
 					psmt.setString(1, userId);
 					rs = psmt.executeQuery();
 					if (rs.next()) {
-						System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-						System.out.println("\t"+rs.getString(1) + "님 환영합니다.");
-						System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 						return 1; // 로그인 성공
 					}
 				} else {
@@ -407,4 +409,8 @@ public class BunguServiceImpl implements BunguService {
 			e.printStackTrace();
 		}
 	}
+	 public static void clearScreen() {
+		    for (int i = 0; i < 80; i++)
+		      System.out.println("");
+		  }
 }

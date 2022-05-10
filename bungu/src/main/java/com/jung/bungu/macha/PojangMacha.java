@@ -16,7 +16,7 @@ public class PojangMacha extends Thread {
 	UserInfo vo = new UserInfo();
 	Scanner scn = new Scanner(System.in);
 	bungubbang make = new bungubbang();
-
+	UserInfo vo1;
 	int havecleaner = 0;
 	int havetle = 0;
 
@@ -29,7 +29,7 @@ public class PojangMacha extends Thread {
 
 	public int login() { // 로그인창
 		while (true) {
-
+			clearScreen();
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("   1. 로그인  2. 회원가입  3. 랭킹  4. 종료  ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -49,7 +49,7 @@ public class PojangMacha extends Thread {
 				int result = service.Login(lId, lPasswd);
 
 				if (result == 1) {
-
+					clearScreen();
 					game(lId);
 
 				} else {
@@ -58,6 +58,7 @@ public class PojangMacha extends Thread {
 
 				break;
 			} else if (menuNo == 2) {
+				clearScreen();
 				int result = service.insertuser(vo);
 				if (result == 1) {
 					System.out.println("회원가입이 완료되었습니다.");
@@ -67,6 +68,7 @@ public class PojangMacha extends Thread {
 				}
 
 			} else if (menuNo == 3) {
+				clearScreen();
 				rank();
 				continue;
 
@@ -75,6 +77,7 @@ public class PojangMacha extends Thread {
 				break;
 			}
 		}
+
 		return 0;
 
 	}
@@ -83,14 +86,18 @@ public class PojangMacha extends Thread {
 		havecleaner = service.haveCleaner(lId);
 		havetle = service.haveCase(lId);
 		boolean isTure = true;
+		vo1 = service.selectuser(lId);
+		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("\t " + vo1.getName() + "님 환영합니다.");
+		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 		while (isTure) {
 			int monuy = 0;
-			System.out.println("┏━━━━━━━━━━━━━━━━━━━┓");
-			System.out.println("  1. 게임 시작       ");
-			System.out.println("  2. 내 정보         ");
-			System.out.println("  3. 상점            ");
-			System.out.println("  4. 로그아웃        ");
-			System.out.println("┗━━━━━━━━━━━━━━━━━━━┛");
+			System.out.println("      ┏━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("         1. 게임 시작       ");
+			System.out.println("         2. 내 정보         ");
+			System.out.println("         3. 상점            ");
+			System.out.println("         4. 로그아웃        ");
+			System.out.println("      ┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
 			System.out.print("선택 => ");
@@ -110,7 +117,7 @@ public class PojangMacha extends Thread {
 				productUpgade();
 				return 0;
 			} else if (menuNo == 4) {
-
+				clearScreen();
 				System.out.println("로그아웃 합니다.");
 
 				isTure = false;
@@ -121,6 +128,7 @@ public class PojangMacha extends Thread {
 				return login();
 			}
 		}
+		clearScreen();
 		return 0;
 
 	}
@@ -130,28 +138,33 @@ public class PojangMacha extends Thread {
 		while (isTure) {
 			make.cleannn(lId);
 			int monuy = 0;
-			System.out.println("┏━━━━━━━━━━━━━━━━━━━┓");
-			System.out.println("  1. 내 정보 조회    ");
-			System.out.println("  2. 비밀번호 변경   ");
-			System.out.println("  3. 회원 탈퇴       ");
-			System.out.println("  4. 장비 보기       ");
-			System.out.println("  5. 돌아가기        ");
-			System.out.println("┗━━━━━━━━━━━━━━━━━━━┛");
+			vo1 = service.selectuser(lId);
+			clearScreen();
+			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("\t" + vo1.getName() + "님의 정보창");
+			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+			System.out.println("       ┏━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("         1. 내 정보 조회    ");
+			System.out.println("         2. 비밀번호 변경   ");
+			System.out.println("         3. 회원 탈퇴       ");
+			System.out.println("         4. 장비 보기       ");
+			System.out.println("         5. 돌아가기        ");
+			System.out.println("       ┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
 			System.out.print("선택 => ");
 			menuNo = Integer.parseInt(scn.next());
 			System.out.println();
-			
+
 			if (menuNo == 1) {
 				vo = service.selectuser(lId);
-				System.out.println(
-						"┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-				System.out.print("   ");  vo.toString();
+				clearScreen();
+				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.print("   ");
+				vo.toString();
 				System.out.println();
 				System.out.println("    장비 : " + make.cleanerpro + ", " + make.tlepro);
-				System.out.println(
-						"┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 				continue; // 내 정보를 조회 한 후 다시 메뉴로 돌아가기 위해 컨티뉴
 			} else if (menuNo == 2) {
 
@@ -173,9 +186,10 @@ public class PojangMacha extends Thread {
 
 				System.out.println(make.cleanerpro + " , 배율 : " + make.clnumber);
 				System.out.println(make.tlepro + " , 갯수 : " + make.tlnumber);
-				
+
 			} else if (menuNo == 5) {
 				isTure = false;
+				clearScreen();
 				break;
 			}
 		}
@@ -193,14 +207,18 @@ public class PojangMacha extends Thread {
 	private void rank() {
 		List<UserInfo> li = service.userRank();
 		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("           랭              킹");
+		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 		for (int i = 0; i < li.size(); i++) {
-			System.out.print("  " + (i + 1) );
+			System.out.print("  " + (i + 1));
 			li.get(i).rank();
 			System.out.println();
 		}
 		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+
 		try {
-			sleep(2000);
+			sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -210,6 +228,7 @@ public class PojangMacha extends Thread {
 		boolean isTure = true;
 		while (isTure) {
 			int monuy = 0;
+			clearScreen();
 			System.out.println("┏━━업그레이드 상점━━┓");
 			System.out.println("  1. 붕어빵틀     ");
 			System.out.println("  2. 청소도구    ");
@@ -225,11 +244,11 @@ public class PojangMacha extends Thread {
 			} else if (menuNo == 2) {
 				cleanerUpgade();
 			} else if (menuNo == 3) {
+				clearScreen();
 				return game(lId);
 			} else {
 
 			}
-
 		}
 		return 0;
 	}
@@ -399,5 +418,10 @@ public class PojangMacha extends Thread {
 		} else if (havetle == upgade3) {
 			System.out.println("업그레이드할 장비가 없습니다.");
 		}
+	}
+
+	public static void clearScreen() {
+		for (int i = 0; i < 80; i++)
+			System.out.println("");
 	}
 }

@@ -75,13 +75,13 @@ public class bungubbang extends Thread {
 			// (멀티 쓰레드로 여러가지 해보았으나 실패) 다음에는 멀티쓰레드를 고려해서 클래스와 메서드를 설계해야 할것
 			try {
 				cleannn(lId);
+				clearScreen();
 				showNumber();
 				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 				System.out.println("   ▷  야생의 " + guest() + "이(가) 등장했다  ◁");
 				System.out.println("   ───────────────────────────────────────────────────  ");
 				guestorder();
 				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-
 				join();// 한명의 손님의 주문이 끝나지 않으면 다음손님은안온다
 				makingmenu(); // 붕어빵 판매 & 굽기 & 청소 등
 				sleep(timer);
@@ -256,7 +256,9 @@ public class bungubbang extends Thread {
 		int x = 0; // 내가 입력한 구울 붕어빵의 갯수
 		// 붕어빵의 갯수를 청결도로 맞추기에 저장, 청결도를 다루기위한 변수(나중에 장비 업데이트를 대비)
 		int z = 0;
+		clearScreen();
 		while (z == 0) {
+			
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("  1. 팥붕 굽기  2. 슈붕 굽기 3. 붕어빵 갯수 4. 돌아가기 ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -316,6 +318,7 @@ public class bungubbang extends Thread {
 			} else if (menuNo == 3) {
 				number();
 			} else if (menuNo == 4) {
+				clearScreen();
 				break;
 			} else {
 
@@ -372,6 +375,7 @@ public class bungubbang extends Thread {
 					bLike += 2; // 만족도 3증가
 					bbangreset();
 				}
+				
 			} else {
 				System.out.println("[  구워진 붕어빵의 수가 부족합니다  ]");
 			}
@@ -381,6 +385,7 @@ public class bungubbang extends Thread {
 	}
 
 	private void number() { // 붕어빵 갯수
+		clearScreen();
 		System.out.println("\t\t┏━━━━━━━━━━━━━━━━━━━━━┓");
 		System.out.println("\t\t     팥붕어빵 갯수");
 		System.out.print("\t\t  ");
@@ -411,19 +416,21 @@ public class bungubbang extends Thread {
 	private void cleaner() {// 청소 메서드
 		// BClean= 15;
 		bClean += 15;
-		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-		System.out.println("  뽀득뽀득 청소 완료 청결도 + 15");
-		System.out.println("  현재 청결도 : " + bClean);
-		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+		clearScreen();
+		System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("\t  뽀득뽀득 청소 완료 청결도 + 15");
+		System.out.println("\t  현재 청결도 : " + bClean);
+		System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 	}
 
 	private void checknow() {
-		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-		System.out.printf("   가진 돈 :      %7d \n", bMonuy);
-		System.out.printf("   청결도  :      %7d \n", bClean);
-		System.out.printf("   만족도  :      %7d \n", bLike);
-		System.out.printf("   앞으로 %2s명의 손님남음 \n", 30 - i);
-		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+		clearScreen();
+		System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+		System.out.printf(" \t  가진 돈 :      %7d \n", bMonuy);
+		System.out.printf(" \t  청결도  :      %7d \n", bClean);
+		System.out.printf(" \t  만족도  :      %7d \n", bLike);
+		System.out.printf(" \t  앞으로 %2s명의 손님남음 \n", 30 - i);
+		System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 	}
 
 	public double productx(int number) { // 시간남으면 추가할 장비 메서드 붕어빵을 구울때 청결도가 적게 줄어든다.
@@ -480,5 +487,10 @@ public class bungubbang extends Thread {
 			tlnumber = 10;
 		}
 	}
+	
+	 public static void clearScreen() {
+		    for (int i = 0; i < 80; i++)
+		      System.out.println("");
+		  }
 
 }

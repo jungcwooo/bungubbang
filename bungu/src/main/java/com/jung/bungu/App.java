@@ -1,7 +1,5 @@
 package com.jung.bungu;
 
-//import com.jung.bungu.BFrame.BFrame;
-import com.jung.bungu.macha.Clean;
 import com.jung.bungu.macha.PojangMacha;
 import com.jung.bungu.macha.bungubbang;
 import com.jung.bungu.service.BunguService;
