@@ -247,13 +247,14 @@ public class BunguServiceImpl extends Thread implements BunguService {
 			vo = new UserInfo();
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
-			System.out.println("=== 회원가입 ===");
-			System.out.print("이름를 입력해주세요 => ");
+			System.out.println("┏━━━━━━━━━━━━━━━━━회원가입━━━━━━━━━━━━━━━━━━━┓");
+			System.out.print("          이름를 입력해주세요 => ");
 			String lName = scn.next();
-			System.out.print("ID를 입력해주세요 => ");
+			System.out.print("          ID를 입력해주세요 => ");
 			String lId = scn.next();
-			System.out.print("Passwd를 입력해주세요 => ");
+			System.out.print("          Passwd를 입력해주세요 => ");
 			String lPasswd = scn.next();
+			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 
 			psmt.setString(1, lName);
 			psmt.setString(2, lId);
@@ -273,7 +274,7 @@ public class BunguServiceImpl extends Thread implements BunguService {
 			}
 			close();
 		}
-
+		clearScreen();
 		return n;
 	}
 
@@ -284,7 +285,9 @@ public class BunguServiceImpl extends Thread implements BunguService {
 		try {
 			conn = dao.getConnection();
 			psmt = conn.prepareStatement(sql);
-			System.out.println("변경 하실 비밀번호를 입력하세요");
+			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("      변경 하실 비밀번호를 입력하세요");
+			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 			String upPasswd = scn.next();
 			psmt.setString(1, upPasswd);
 			psmt.setString(2, lId);
@@ -301,10 +304,12 @@ public class BunguServiceImpl extends Thread implements BunguService {
 	}
 
 	@Override
-	public int deleteuser(String lId) { // 회원탈퇴 아이디를 검색해서 탈퇴
+	public int deleteuser(String lId) { // 로그인 상태에서 로그인한 계정 회원탈퇴 탈퇴
 		int n = 0;
 		String sql = "DELETE FROM USERINFO WHERE ID = ?";
-		System.out.println("정말로 회원탈퇴를 진행하시겠습니까?(Y/N)");
+		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("   정말로 회원탈퇴를 진행하시겠습니까?(Y/N)");
+		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 
 		String check = scn.next();
 
@@ -321,16 +326,23 @@ public class BunguServiceImpl extends Thread implements BunguService {
 				close();
 			}
 		} else if (check.equalsIgnoreCase("n")) {
-
-			System.out.println("취소 하셨습니다.");
-			System.out.println("이전 페이지로 돌아갑니다.");
+			clearScreen();
+			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("               취소 하셨습니다.");
+			System.out.println("          이전 페이지로 돌아갑니다.");
+			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 			return 0;
 
 		} else {
-			System.out.println("잘못입력하셨습니다.");
+			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("           잘못입력하셨습니다.");
+			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 			return 0;
 		}
-		System.out.println("정상적으로 탈퇴되셨습니다.");
+		clearScreen();
+		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("         정상적으로 탈퇴되셨습니다.");
+		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 		return n;
 	}
 
@@ -377,11 +389,17 @@ public class BunguServiceImpl extends Thread implements BunguService {
 						return 1; // 로그인 성공
 					}
 				} else {
-					System.out.println("비밀번호가 다릅니다.");
+					clearScreen();
+					System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+					System.out.println("            비밀번호가 다릅니다.");
+					System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 					return 0; // 비밀번호 불일치
 				}
 			} else {
-				System.out.println("아이디를 찾을 수 없습니다.");
+				clearScreen();
+				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("        아이디를 찾을 수 없습니다.");
+				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 				return -1; // 아이디가 없음
 
 			}

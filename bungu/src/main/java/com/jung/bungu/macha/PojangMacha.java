@@ -24,19 +24,32 @@ public class PojangMacha extends Thread {
 	String lId;
 
 	public void run() {
+//		mainba();
+		mainba2();
+//		maintip();
+		maintip2();
 		login();
 	}
 
 	public int login() { // 로그인창
+		clearScreen();
 		while (true) {
-			clearScreen();
+			int menuNo = 0;
+
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("   1. 로그인  2. 회원가입  3. 랭킹  4. 종료  ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 
-			int menuNo = 0;
 			System.out.print("선택 => ");
-			menuNo = Integer.parseInt(scn.next());
+			try {
+				menuNo = Integer.parseInt(scn.next());
+
+			} catch (Exception e) {
+				clearScreen();
+				System.out.println("   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println(" \t     숫자만 입력해주세요");
+				System.out.println("   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+			}
 
 			if (menuNo == 1) { // 로그인 ID,PASSWD를 입력 받아서 Login메서드에 넣어주고 디비에 저장된 ID PASSWD와 일치하면 리턴값 1을 받아
 				// game();메서드가 실행된다.
@@ -53,6 +66,7 @@ public class PojangMacha extends Thread {
 					game(lId);
 
 				} else {
+
 					continue;
 				}
 
@@ -61,7 +75,9 @@ public class PojangMacha extends Thread {
 				clearScreen();
 				int result = service.insertuser(vo);
 				if (result == 1) {
-					System.out.println("회원가입이 완료되었습니다.");
+					System.out.println("   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+					System.out.println(" \t  회원가입이 완료되었습니다.");
+					System.out.println("   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 				} else {
 
 					continue;
@@ -75,9 +91,13 @@ public class PojangMacha extends Thread {
 			} else if (menuNo == 4) {
 				System.out.println("프로그램을 종료합니다.");
 				break;
+			} else {
+				clearScreen();
+				System.out.println("   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("         1 ~ 4의 숫자만 입력해주세요");
+				System.out.println("   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 			}
 		}
-
 		return 0;
 
 	}
@@ -93,15 +113,23 @@ public class PojangMacha extends Thread {
 		while (isTure) {
 			int monuy = 0;
 			System.out.println("      ┏━━━━━━━━━━━━━━━━━━━┓");
-			System.out.println("         1. 게임 시작       ");
-			System.out.println("         2. 내 정보         ");
-			System.out.println("         3. 상점            ");
-			System.out.println("         4. 로그아웃        ");
+			System.out.println("          1. 게임 시작       ");
+			System.out.println("          2. 내 정보         ");
+			System.out.println("          3. 상점            ");
+			System.out.println("          4. 로그아웃        ");
 			System.out.println("      ┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
 			System.out.print("선택 => ");
-			menuNo = Integer.parseInt(scn.next());
+			try {
+				menuNo = Integer.parseInt(scn.next());
+
+			} catch (Exception e) {
+				clearScreen();
+				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("\t숫자만 입력해주세요");
+				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+			}
 			System.out.println();
 			if (menuNo == 1) {
 
@@ -141,19 +169,27 @@ public class PojangMacha extends Thread {
 			vo1 = service.selectuser(lId);
 			clearScreen();
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-			System.out.println("\t" + vo1.getName() + "님의 정보창");
+			System.out.println("\t   " + vo1.getName() + "님의 정보창");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 			System.out.println("       ┏━━━━━━━━━━━━━━━━━━━┓");
-			System.out.println("         1. 내 정보 조회    ");
-			System.out.println("         2. 비밀번호 변경   ");
-			System.out.println("         3. 회원 탈퇴       ");
-			System.out.println("         4. 장비 보기       ");
-			System.out.println("         5. 돌아가기        ");
+			System.out.println("          1. 내 정보 조회    ");
+			System.out.println("          2. 비밀번호 변경   ");
+			System.out.println("          3. 회원 탈퇴       ");
+			System.out.println("          4. 장비 보기       ");
+			System.out.println("          5. 돌아가기        ");
 			System.out.println("       ┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
 			System.out.print("선택 => ");
-			menuNo = Integer.parseInt(scn.next());
+			try {
+				menuNo = Integer.parseInt(scn.next());
+
+			} catch (Exception e) {
+				clearScreen();
+				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("\t   숫자만 입력해주세요");
+				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+			}
 			System.out.println();
 
 			if (menuNo == 1) {
@@ -165,6 +201,7 @@ public class PojangMacha extends Thread {
 				System.out.println();
 				System.out.println("    장비 : " + make.cleanerpro + ", " + make.tlepro);
 				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				sleeep(3);
 				continue; // 내 정보를 조회 한 후 다시 메뉴로 돌아가기 위해 컨티뉴
 			} else if (menuNo == 2) {
 
@@ -174,19 +211,27 @@ public class PojangMacha extends Thread {
 				} else {
 					System.out.println("변경에 실패하셨습니다");
 				}
+				sleeep(3);
 				continue; // 비밀 번호는 변경한 후 다시 메뉴로 돌아가기 위해 컨티뉴, 원래 비번 바꾸고 다시 로그인은 국룰이지만
 
 			} else if (menuNo == 3) {
 
 				service.deleteuser(lId);
 				System.out.println("감사했습니다");
+				sleeep(3);
 				return login(); // 탈퇴를 하고 다시 메뉴로 돌아가는것을 방지하기 위해
 
 			} else if (menuNo == 4) {
-
-				System.out.println(make.cleanerpro + " , 배율 : " + make.clnumber);
-				System.out.println(make.tlepro + " , 갯수 : " + make.tlnumber);
-
+				clearScreen();
+				make.cleannn(lId);
+				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("\t   " + vo1.getName() + "님의 장비");
+				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("     " + make.cleanerpro + " , 배율 : " + make.clnumber);
+				System.out.println("     " + make.tlepro + " , 갯수 : " + make.tlnumber);
+				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				sleeep(3);
 			} else if (menuNo == 5) {
 				isTure = false;
 				clearScreen();
@@ -217,11 +262,8 @@ public class PojangMacha extends Thread {
 		}
 		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 
-		try {
-			sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		sleeep(4);
+		clearScreen();
 	}
 
 	private int productUpgade() {
@@ -230,14 +272,22 @@ public class PojangMacha extends Thread {
 			int monuy = 0;
 			clearScreen();
 			System.out.println("┏━━업그레이드 상점━━┓");
-			System.out.println("  1. 붕어빵틀     ");
-			System.out.println("  2. 청소도구    ");
-			System.out.println("  3. 돌아가기        ");
+			System.out.println("    1. 붕어빵틀     ");
+			System.out.println("    2. 청소도구    ");
+			System.out.println("    3. 돌아가기        ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━┛");
 
 			int menuNo = 0;
 			System.out.print("선택 => ");
-			menuNo = Integer.parseInt(scn.next());
+			try {
+				menuNo = Integer.parseInt(scn.next());
+
+			} catch (Exception e) {
+				clearScreen();
+				System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("\t   숫자만 입력해주세요");
+				System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+			}
 			System.out.println();
 			if (menuNo == 1) {
 				tleUpgade();
@@ -334,6 +384,8 @@ public class PojangMacha extends Thread {
 		} else if (havecleaner == upgade3) {
 			System.out.println("업그레이드할 장비가 없습니다.");
 		}
+
+		sleeep(4);
 	}
 
 	private void tleUpgade() { // 빵틀 업그레이드
@@ -341,7 +393,6 @@ public class PojangMacha extends Thread {
 		int upgade1 = 10000; // 장비들의 가격
 		int upgade2 = 20000;
 		int upgade3 = 30000;
-
 		if (havetle == 0) {
 			System.out.println("※ 업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("가격 : 10,000원");
@@ -418,10 +469,147 @@ public class PojangMacha extends Thread {
 		} else if (havetle == upgade3) {
 			System.out.println("업그레이드할 장비가 없습니다.");
 		}
+		check();
 	}
 
 	public static void clearScreen() {
 		for (int i = 0; i < 80; i++)
 			System.out.println("");
+	}
+
+	public void check() {
+		System.out.println("확인 : ENTER");
+		scn.next();
+		scn.nextLine();
+
+	}
+
+	public static void sleeep(double time) {
+		try {
+			sleep((long) (time * 1000));
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void mainba() {
+		System.out.println(
+				"     ` ``        ``                           ``    `     `      `` `````                              `` ``                    ````` `                           \r\n"
+						+ "     ##  `        ``##`                       ##       ```     `` ` `` ##`                             ` ##``                    ` `##       `  ````````````` `   \r\n"
+						+ "     ##  ```````   `##        ` `##`          ##     ##` `## ##`  ##   ##              `````````````   ` ## `     `` ``#`   `      `##       `################`   \r\n"
+						+ "     #################`      `##```###`      `##     ## ``##`##`  ##`` ##              `############   ` ## `     `###``####       `##         `           `##`   \r\n"
+						+ "     ##   `````` ` `##`    `###```  `##`      ##     #######`#######`` ######           ## ``          ` ##      `##`` ` `###`     `##       `````     ` ```## `  \r\n"
+						+ "    `#################      ## `     `##`    `##     ##```##`##` `##`` ##`  `           ##      ` `    ` ## `   ``##` `   `###`    `##       ``###############`   \r\n"
+						+ "    ```````````````````   ``##`     ``##########     ## ``##`##`  ##`` ##               ###########    ` ####### ##`  `    `##`    `##       ` `      `   ` ##`   \r\n"
+						+ "`` `                       `## `     `##`     ##     #######`####### ``##`              ##``    ```    ` ##      ##``      `## `   `## ` `########################\r\n"
+						+ "`########################`` ##`    ` ###`     ##           ` ` `  ``   ##`              ## ``           `##      `## `` `  ##``    `##       ```     `##          \r\n"
+						+ " ```      ``##````        ` `### `  ###``     ##           `##########`` `              ## ``          ` ##     ``###``  `##`      `##        ``     `##          \r\n"
+						+ "    ` ####``  ``####``        `######`        ##       ``###````  ` ``###`              ###################         ######` `      `##        ##     `## `        \r\n"
+						+ "    `##    `  ` ````##`      ``  `   `        ##        ### `` ``  `` `###              `  ` `   ` ` ` ` ##     ``    `    ``      `##        ##     `   `        \r\n"
+						+ "    `### `  `     `###                        ##       ` ###` `   `   ###                              ` ##                        `##        ##               `  \r\n"
+						+ "    ` ``###########`` `                       ##           `##########`  `                              `##``                   ` ``##       `#################`  \r\n"
+						+ "");
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println(
+				"                                                            ============================================");
+		System.out.println("                                                              게임을 시작하려면 아무런 키를 입력하세요");
+		System.out.println(
+				"                                                            ============================================");
+		try {
+			Integer.parseInt(scn.next());
+
+		} catch (Exception e) {
+		}
+	}
+	public void mainba2() {
+		clearScreen();
+		System.out.println("   ___                                ___    ___                          _ \r\n"
+				+ "  / __\\ _   _  _ __    __ _  _   _   / __\\  / __\\  __ _  _ __    __ _    / \\\r\n"
+				+ " /__\\//| | | || '_ \\  / _` || | | | /__\\// /__\\// / _` || '_ \\  / _` |  /  /\r\n"
+				+ "/ \\/  \\| |_| || | | || (_| || |_| |/ \\/  \\/ \\/  \\| (_| || | | || (_| | /\\_/ \r\n"
+				+ "\\_____/ \\__,_||_| |_| \\__, | \\__,_|\\_____/\\_____/ \\__,_||_| |_| \\__, | \\/   \r\n"
+				+ "                      |___/                                     |___/       \r\n"
+				+ "                                                 _____                                  \r\n"
+				+ "                                                /__   \\ _   _   ___  ___    ___   _ __  \r\n"
+				+ "                                                  / /\\/| | | | / __|/ _ \\  / _ \\ | '_ \\ \r\n"
+				+ "                                                 / /   | |_| || (__| (_) || (_) || | | |\r\n"
+				+ "                                                 \\/     \\__, | \\___|\\___/  \\___/ |_| |_|\r\n"
+				+ "                                                        |___/                           \r\n"
+				+ "");
+		System.out.println();
+		System.out.println();
+		System.out.println(
+				"                 ============================================");
+		System.out.println("                   게임을 시작하려면 아무런 키를 입력하세요");
+		System.out.println(
+				"                 ============================================");
+		try {
+			Integer.parseInt(scn.next());
+
+		} catch (Exception e) {
+		}
+	}
+
+	public void maintip() {
+
+		clearScreen();
+		System.out.println("   __             _  _                        \r\n"
+				+ "  / /   ___    __| |(_) _ __    __ _          \r\n"
+				+ " / /   / _ \\  / _` || || '_ \\  / _` |         \r\n"
+				+ "/ /___| (_) || (_| || || | | || (_| | _  _  _ \r\n"
+				+ "\\____/ \\___/  \\__,_||_||_| |_| \\__, |(_)(_)(_)\r\n"
+				+ "                               |___/          \r\n" + "       _____  _        \r\n"
+				+ "      /__   \\(_) _ __  \r\n" + "        / /\\/| || '_ \\ \r\n"
+				+ "       / /   | || |_) |              게임을 시작하면 기본 재료가 지급됩니다.\r\n" + "       \\/    |_|| .__/ \r\n"
+				+ "                |_|    \r\n" + "");
+
+		PojangMacha.sleeep(1.5);
+
+		clearScreen();
+		System.out.println("   __             _  _                                 \r\n"
+				+ "  / /   ___    __| |(_) _ __    __ _                   \r\n"
+				+ " / /   / _ \\  / _` || || '_ \\  / _` |                  \r\n"
+				+ "/ /___| (_) || (_| || || | | || (_| | _  _  _  _  _  _ \r\n"
+				+ "\\____/ \\___/  \\__,_||_||_| |_| \\__, |(_)(_)(_)(_)(_)(_)\r\n"
+				+ "                               |___/                   \r\n" + "       _____  _        \r\n"
+				+ "      /__   \\(_) _ __  \r\n" + "        / /\\/| || '_ \\ \r\n"
+				+ "       / /   | || |_) |              게임을 시작하기전 장비를 업그레이드해보세요!\r\n" + "       \\/    |_|| .__/ \r\n"
+				+ "                |_|    \r\n" + "");
+		PojangMacha.sleeep(1.5);
+
+		clearScreen();
+		System.out.println("   __             _  _                                          \r\n"
+				+ "  / /   ___    __| |(_) _ __    __ _                            \r\n"
+				+ " / /   / _ \\  / _` || || '_ \\  / _` |                           \r\n"
+				+ "/ /___| (_) || (_| || || | | || (_| | _  _  _  _  _  _  _  _  _ \r\n"
+				+ "\\____/ \\___/  \\__,_||_||_| |_| \\__, |(_)(_)(_)(_)(_)(_)(_)(_)(_)\r\n"
+				+ "                               |___/                            \r\n" + "       _____  _        \r\n"
+				+ "      /__   \\(_) _ __  \r\n" + "        / /\\/| || '_ \\ \r\n"
+				+ "       / /   | || |_) |              게임을 종료하면 남은 돈은 저장됩니다.\r\n" + "       \\/    |_|| .__/ \r\n"
+				+ "                |_|    \r\n" + "");
+		PojangMacha.sleeep(1.5);
+	}
+
+	public void maintip2() {
+		String[] tip2 = { "(_)(_)(_)","(_)(_)(_)(_)(_)(_)","(_)(_)(_)(_)(_)(_)(_)(_)(_)"};
+		String[] tip = { "게임을 시작하기전 장비를 업그레이드해보세요!", "게임을 종료하면 남은 돈은 저장됩니다.", "게임을 시작하면 기본 재료가 지급됩니다." };
+		for (int i = 0; i < 3; i++) {
+			int x = (int) (Math.random() * tip.length);
+			clearScreen();
+			System.out.println("   __             _  _                                 \r\n"
+					+ "  / /   ___    __| |(_) _ __    __ _                   \r\n"
+					+ " / /   / _ \\  / _` || || '_ \\  / _` |                  \r\n"
+					+ "/ /___| (_) || (_| || || | | || (_| |                    \r\n"
+					+ "\\____/ \\___/  \\__,_||_||_| |_| \\__, / " + tip2[i] + "\r\n"
+					+ "                               |___/                   \r\n" + "       _____  _        \r\n"
+					+ "      /__   \\(_) _ __  \r\n" + "        / /\\/| || '_ \\ \r\n"
+					+ "       / /   | || |_) |              " + tip[x] + "\r\n" + "       \\/    |_|| .__/ \r\n"
+					+ "                |_|    \r\n" + "");
+			PojangMacha.sleeep(1.5);
+		}
+
 	}
 }
