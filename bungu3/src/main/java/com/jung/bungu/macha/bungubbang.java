@@ -12,6 +12,7 @@
 
 package com.jung.bungu.macha;
 
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.jung.bungu.service.BunguService;
@@ -35,19 +36,11 @@ public class bungubbang extends Thread {
 	private int bLike = 0; // 고객 만족도
 	private double cleanNumber = 0.0; // 붕어빵 갯수 * 배율
 	int bClean = (int) cleanNumber; // 위생지수
-	int bTime; // 현재 진행 시간
+	static int bTime; // 현재 진행 시간
 	String cleanerpro = "기본 청소도구";
 	double clnumber = 1; // 배율
 	String tlepro = "기본 붕어빵틀";
 	int tlnumber = 5; // 갯수
-
-	public int getbTime() {
-		return bTime;
-	}
-
-	public void setbTime(int bTime) {
-		this.bTime = bTime;
-	}
 
 	public double getbClean() {
 		return bClean;
@@ -66,6 +59,10 @@ public class bungubbang extends Thread {
 
 	int sumTime = 0; // 게임시간 저장
 
+	public void run() {
+
+	}
+
 	public int gaustRun(String lId) {
 //		Time ti = new Time();
 		this.lId = lId;
@@ -73,9 +70,10 @@ public class bungubbang extends Thread {
 		int monuy = 0;
 //		ti.start();
 //		showSec();
-		while (i < 30) {// 하루 30명의 손님만 받음
+		while (bTime < 180) {// 하루 30명의 손님만 받음
 			// (멀티 쓰레드로 여러가지 해보았으나 실패) 다음에는 멀티쓰레드를 고려해서 클래스와 메서드를 설계해야 할것
 			try {
+
 				cleannn(lId);
 				clearScreen();
 				showNumber();
@@ -92,14 +90,7 @@ public class bungubbang extends Thread {
 			}
 		}
 		clearScreen();
-		System.out.println(" ██████╗     ██████╗ \r\n"
-				+ "██╔════╝    ██╔════╝ \r\n"
-				+ "██║  ███╗   ██║  ███╗\r\n"
-				+ "██║   ██║   ██║   ██║\r\n"
-				+ "╚██████╔╝██╗╚██████╔╝\r\n"
-				+ " ╚═════╝ ╚═╝ ╚═════╝ \r\n"
-				+ "                     \r\n"
-				+ "");
+		PojangMacha.GG();
 		sum += monuy;
 
 		return bMonuy;
@@ -111,30 +102,12 @@ public class bungubbang extends Thread {
 
 	}
 
-	private void showSec() {
-
-		try {
-			sleep(10000);
-			sec += 10;
-			System.out.println((++sec) + "초 경과");
-
-			if (bTime >= 10) {
-				System.out.println("게임 시간이 끝났습니다.");
-				i = 99;
-
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	private String guest() { // 손님의 남여노소를 랜덤하게 짜는 메서드 (랜덤한 손님이 오게끔보이기 위해)
 
 		return (gsAge[(int) (4 * (Math.random()))] + gsGender[(int) (4 * (Math.random()))]);
 	}
 
-	private void guestorder() { // 한 손님이 최대로 주문할수 있는 붕어빵의 갯수 8개 (팥,슈크림 4개씩)
+	private void guestorder() { // 한 손님이 최대로 주문할수 있는 붕어빵의 갯수 8개 (팥,슈크림 4개씩) 0~8 0~8
 		this.buyRedbeen = (int) (9 * (Math.random()));
 		this.buyCustard = (int) (9 * (Math.random()));
 
@@ -199,7 +172,6 @@ public class bungubbang extends Thread {
 			if (menuNo == 1) {
 				clearScreen();
 				bungumanager(); // 붕어빵을 관리 굽기, 판매, 갯수확인 재료구매
-
 			} else if (menuNo == 2) {
 				cleaner(); // 청결도를 올리는 거니까 자동으로 청결도를 내리게 하는 스레드 써야함
 
@@ -224,25 +196,30 @@ public class bungubbang extends Thread {
 				}
 
 			} else {
-				
+
 			}
 
 		}
 	}
+
 	private void waitting() {
-		try {
-			clearScreen();
-			System.out.println("손님 기다리는 중 . .");
-			sleep(1000 * (int) (Math.random()) + 1000);
-			clearScreen();
-			System.out.println("손님 기다리는 중 . . . .");
-			sleep(1000 * (int) (Math.random()) + 1000);
-			clearScreen();
-			System.out.println("손님 기다리는 중 . . . . . .");
-			sleep(1000 * (int) (Math.random()) + 1000);
-			clearScreen();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (bTime < 300) {
+			try {
+				clearScreen();
+				System.out.println("손님 기다리는 중 . .");
+				sleep(1000 * (int) (Math.random()) + 1000);
+				clearScreen();
+				System.out.println("손님 기다리는 중 . . . .");
+				sleep(1000 * (int) (Math.random()) + 1000);
+				clearScreen();
+				System.out.println("손님 기다리는 중 . . . . . .");
+				sleep(1000 * (int) (Math.random()) + 1000);
+				clearScreen();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} else {
+
 		}
 	}
 
@@ -277,12 +254,19 @@ public class bungubbang extends Thread {
 			} else if (menuNo == 5) {
 				clearScreen();
 				break;
+			} else if (menuNo == 6773) {
+				bMonuy += 20000;
+				flour += 500;
+				redbeenfilling += 500;
+				custardfilling += 500;
+				break;
 			} else {
 				PojangMacha.outOfRange();
 			}
 		}
 
 	}
+
 	private void endGame() {
 		try {
 			clearScreen();
@@ -295,26 +279,24 @@ public class bungubbang extends Thread {
 			System.out.println("게임 종료 중 . . . . . .");
 			sleep(1000);
 			clearScreen();
-			
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
 		i = 99; // 손님의 수를 강제로 30 이상으로 만들어서 게임이 종료되게 함.
 	}
-	
+
 	private void startGameList() {
 		System.out.println("\t\t ┏━━━━━━━━━━━━━━━━━━━┓");
-		System.out.println("\t\t   1. 붕어빵 관리    ");
-		System.out.println("\t\t   2. 청소하기       ");
-		System.out.println("\t\t   3. 현재 상황      "); // 여기에 모인 돈 , 몇번쨰 손님인지, 청결도, 만족도 체크
-		System.out.println("\t\t   4. 다음 손님      ");
-		System.out.println("\t\t   5. 게임 끝내기    ");
+		System.out.println("\t\t   1. 붕어빵 관리     ");
+		System.out.println("\t\t   2. 청소 (-￦500)        ");
+		System.out.println("\t\t   3. 현재 상황       "); // 여기에 모인 돈 , 몇번쨰 손님인지, 청결도, 만족도 체크
+		System.out.println("\t\t   4. 다음 주문받기   ");
+		System.out.println("\t\t   5. 게임 끝내기     ");
 		System.out.println("\t\t ┗━━━━━━━━━━━━━━━━━━━┛");
 		System.out.print("선택 => ");
 	}
-	
-	
 
 	private void making() { // 붕어빵굽기
 		int x = 0; // 내가 입력한 구울 붕어빵의 갯수
@@ -322,7 +304,15 @@ public class bungubbang extends Thread {
 		clearScreen();
 		int z = 0;
 		while (z == 0) {
-
+			if (buyRedbeen >= 0 && buyCustard >= 0) {
+				System.out.println("       ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.printf("             손님은 팥붕 %d개와 슈붕 %d개를 원하고있습니다. \n", buyRedbeen, buyCustard);
+				System.out.println("       ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+			} else {
+				System.out.println("       ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+				System.out.println("                           손님이 없습니다                      ");
+				System.out.println("       ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+			}
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("  1. 팥붕 굽기  2. 슈붕 굽기 3. 붕어빵 갯수 4. 남은 재료 5. 돌아가기 ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -331,10 +321,16 @@ public class bungubbang extends Thread {
 			int menuNo = menuselect();
 			System.out.println();
 			if (menuNo == 1) {
-				
+
 				System.out.println("[  팥붕어빵 몇개를 구울까요? (최대 " + tlnumber + "개)  ]");
 				System.out.print("굽기 => ");
-				x = Integer.parseInt(scn.nextLine());
+				try {
+					x = Integer.parseInt(scn.nextLine());
+
+				} catch (Exception e) {
+					System.out.println("다시 입력해주세요");
+				}
+
 				cleanNumber = x * clnumber;
 				if (x > 0 && x <= tlnumber) {
 					if ((x + redbeen) >= 0 && (x + redbeen) <= 10) {
@@ -378,7 +374,12 @@ public class bungubbang extends Thread {
 			} else if (menuNo == 2) {
 				System.out.println("[  슈크림붕어빵 몇개를 구울까요?(최대 " + tlnumber + "개)  ]");
 				System.out.print("굽기 => ");
-				x = Integer.parseInt(scn.nextLine());
+				try {
+					x = Integer.parseInt(scn.nextLine());
+
+				} catch (Exception e) {
+					System.out.println("다시 입력해주세요");
+				}
 				cleanNumber = x * clnumber;
 				if (x > 0 && x <= tlnumber) {
 					if ((x + custard) >= 0 && (x + custard) <= 10) {
@@ -398,7 +399,7 @@ public class bungubbang extends Thread {
 								z = 99;
 								break;
 							}
-						}else {
+						} else {
 							clearScreen();
 							System.out.println("       ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 							System.out.println("                    붕어빵을 만들 재료가 부족합니다             ");
@@ -428,7 +429,6 @@ public class bungubbang extends Thread {
 				System.out.println("\t\t      가 진 재 료     ");
 				System.out.println("\t\t ┗━━━━━━━━━━━━━━━━━━━┛");
 				System.out.println("\t\t ┏━━━━━━━━━━━━━━━━━━━┓");
-
 				System.out.printf("\t\t    밀가루     %3s개\n", flour);
 				System.out.printf("\t\t    팥앙금     %3s개\n", redbeenfilling);
 				System.out.printf("\t\t    슈크림앙금 %3s개\n", custardfilling);
@@ -448,12 +448,22 @@ public class bungubbang extends Thread {
 
 		if (buyRedbeen >= 0 && buyCustard >= 0) {
 			clearScreen();
-			System.out.printf("☞ 손님이 팥 %s개와 슈%s개를 원합니다.\n", buyRedbeen, buyCustard);
-			System.out.print("→ 팥붕어빵 몇개를 봉투에 담으시겠습니까? => ");
-			int buy1 = Integer.parseInt(scn.nextLine());
+			int buy1 = 0;
+			int buy2 = 0;
+			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+			System.out.printf("      손님은 팥붕 %d개와 슈붕 %d개를 원하고있습니다. \n", buyRedbeen, buyCustard);
+			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 
-			System.out.print("→ 슈크림붕어빵 몇개를 봉투에 담으시겠습니까? => ");
-			int buy2 = Integer.parseInt(scn.nextLine());
+			try {
+				System.out.print("→ 팥붕어빵 몇개를 봉투에 담으시겠습니까? => ");
+				buy1 = Integer.parseInt(scn.nextLine());
+				System.out.print("→ 슈크림붕어빵 몇개를 봉투에 담으시겠습니까? => ");
+				buy2 = Integer.parseInt(scn.nextLine());
+			} catch (Exception e) {
+				buy1 = -1;
+				buy2 = -1;
+				System.out.println("다시 입력해주세요");
+			}
 
 			if (buy1 <= redbeen && buy2 <= custard) {
 
@@ -559,12 +569,19 @@ public class bungubbang extends Thread {
 
 	private void cleaner() {// 청소 메서드
 		// BClean= 15;
-		bClean += 15;
-		clearScreen();
-		System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-		System.out.println("\t  뽀득뽀득 청소 완료 청결도 + 15");
-		System.out.println("\t  현재 청결도 : " + bClean);
-		System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+		if ((bMonuy - 500) >= 0) {
+			bClean += 10;
+			clearScreen();
+			System.out.println("\t ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("\t   뽀득뽀득 청소 완료 청결도 + 15");
+			System.out.println("\t   현재 청결도 : " + bClean);
+			System.out.println("\t ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+		} else {
+			clearScreen();
+			System.out.println("\t ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+			System.out.println("\t            돈이 부족합니다           ");
+			System.out.println("\t ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+		}
 	}
 
 	private void checknow() {
@@ -592,12 +609,13 @@ public class bungubbang extends Thread {
 			System.out.println("\t   3. 슈크림앙금 구매   가격 : 200원");
 			System.out.println("\t   4. 가진 재료 보기    ");
 			System.out.println("\t   5. 돌아가기       ");
+			System.out.printf("\t                 가진 현금 : %5d원\n", bMonuy);
 			System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 
 			int buyNo = 0;
 			System.out.print("선택 => ");
 			int menuNo = menuselect();
-		
+
 			System.out.println();
 			if (menuNo == 1) {
 				clearScreen();
@@ -605,20 +623,25 @@ public class bungubbang extends Thread {
 				System.out.println("\t    밀가루를 몇개 구매하시겠습니까?");
 				System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 				System.out.print("갯수 입력 => ");
-				buyNo = Integer.parseInt(scn.nextLine());
+				try {
+					buyNo = Integer.parseInt(scn.nextLine());
 
-				if ((bMonuy - (buyNo * 150)) > 0) {
-					flour += buyNo;
-					bMonuy -= buyNo * 150;
-					clearScreen();
-					System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-					System.out.println("\t  밀가루를" + buyNo + "개 구매하였습니다  ");
-					System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-				} else {
-					clearScreen();
-					System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-					System.out.println("\t        가진 금액이 부족합니다         ");
-					System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				} catch (Exception e) {
+				}
+				if (buyNo > 0) {
+					if ((bMonuy - (buyNo * 150)) > 0) {
+						flour += buyNo;
+						bMonuy -= buyNo * 150;
+						clearScreen();
+						System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+						System.out.println("\t  밀가루를" + buyNo + "개 구매하였습니다  ");
+						System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+					} else {
+						clearScreen();
+						System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+						System.out.println("\t        가진 금액이 부족합니다         ");
+						System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+					}
 				}
 			} else if (menuNo == 2) {
 				clearScreen();
@@ -626,42 +649,51 @@ public class bungubbang extends Thread {
 				System.out.println("\t    팥앙금을 몇개 구매하시겠습니까?");
 				System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 				System.out.print("갯수 입력 => ");
-				buyNo = Integer.parseInt(scn.nextLine());
+				try {
+					buyNo = Integer.parseInt(scn.nextLine());
 
-				if ((bMonuy - (buyNo * 200)) > 0) {
-					redbeenfilling += buyNo;
-					bMonuy -= buyNo * 200;
-					clearScreen();
-					System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-					System.out.println("\t  팥앙금을" + buyNo + "개 구매하였습니다  ");
-					System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-				} else {
-					clearScreen();
-					System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-					System.out.println("\t        가진 금액이 부족합니다         ");
-					System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				} catch (Exception e) {
 				}
-
+				if (buyNo > 0) {
+					if ((bMonuy - (buyNo * 200)) > 0) {
+						redbeenfilling += buyNo;
+						bMonuy -= buyNo * 200;
+						clearScreen();
+						System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+						System.out.println("\t  팥앙금을" + buyNo + "개 구매하였습니다  ");
+						System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+					} else {
+						clearScreen();
+						System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+						System.out.println("\t        가진 금액이 부족합니다         ");
+						System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+					}
+				}
 			} else if (menuNo == 3) {
 				clearScreen();
 				System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 				System.out.println("\t  슈크림앙금을 몇개 구매하시겠습니까?");
 				System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 				System.out.print("갯수 입력 => ");
-				buyNo = Integer.parseInt(scn.nextLine());
+				try {
+					buyNo = Integer.parseInt(scn.nextLine());
 
-				if ((bMonuy - (buyNo * 200)) > 0) {
-					custardfilling += buyNo;
-					bMonuy -= buyNo * 200;
-					clearScreen();
-					System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-					System.out.println("\t  슈크림앙금을" + buyNo + "개 구매하였습니다  ");
-					System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-				} else {
-					clearScreen();
-					System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-					System.out.println("\t        가진 금액이 부족합니다         ");
-					System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				} catch (Exception e) {
+				}
+				if (buyNo > 0) {
+					if ((bMonuy - (buyNo * 200)) > 0) {
+						custardfilling += buyNo;
+						bMonuy -= buyNo * 200;
+						clearScreen();
+						System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+						System.out.println("\t  슈크림앙금을" + buyNo + "개 구매하였습니다  ");
+						System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+					} else {
+						clearScreen();
+						System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+						System.out.println("\t        가진 금액이 부족합니다         ");
+						System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+					}
 				}
 
 			} else if (menuNo == 4) {
@@ -685,9 +717,7 @@ public class bungubbang extends Thread {
 				break;
 			} else {
 				clearScreen();
-				System.out.println("\t┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-				System.out.println("\t\t 1 ~ 5의 숫자만 입력해주세요");
-				System.out.println("\t┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
+				PojangMacha.outOfRange();
 			}
 		}
 	}
@@ -751,6 +781,7 @@ public class bungubbang extends Thread {
 		for (int i = 0; i < 80; i++)
 			System.out.println("");
 	}
+
 	private int menuselect() { // 메뉴 선택 메서드
 		int menuNo = 0;
 		try {

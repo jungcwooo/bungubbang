@@ -1,6 +1,7 @@
 package com.jung.bungu;
 
 import com.jung.bungu.macha.PojangMacha;
+import com.jung.bungu.macha.Share;
 import com.jung.bungu.macha.bungubbang;
 import com.jung.bungu.service.BunguService;
 import com.jung.bungu.serviceImpl.BunguServiceImpl;
@@ -21,6 +22,8 @@ public class App
     	
     	
     	macha.start();
+//    	new Share();
+    	
     	
     	
     	

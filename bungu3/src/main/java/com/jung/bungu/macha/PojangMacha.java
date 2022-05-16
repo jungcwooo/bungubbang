@@ -17,6 +17,7 @@ public class PojangMacha extends Thread {
 	UserInfo vo1;
 	int havecleaner = 0;
 	int havetle = 0;
+	int count = 0;
 
 	BunguService service = new BunguServiceImpl();
 	String lId;
@@ -24,9 +25,11 @@ public class PojangMacha extends Thread {
 	public void run() {
 //		mainba();
 		mainba2(); // 사용
+//		mainba3(); 
 //		maintip();
 		maintip2(); // 사용
 		login();
+//		miniGame();
 	}
 
 	public int login() {
@@ -38,8 +41,10 @@ public class PojangMacha extends Thread {
 			int menuNo = menuselect();
 
 			if (menuNo == 1) {
+
 				loginnow();
-				break;
+
+				
 
 			} else if (menuNo == 2) {
 				joinuser();
@@ -78,13 +83,15 @@ public class PojangMacha extends Thread {
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("            비밀번호가 다릅니다.");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-
+			sleeep(2);
+			clearScreen();
 		} else if (result == -1) {
 			clearScreen();
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("          아이디를 찾을 수 없습니다.");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-
+			sleeep(2);
+			clearScreen();
 		} else {
 
 		}
@@ -157,8 +164,9 @@ public class PojangMacha extends Thread {
 			logingList();
 			int menuNo = menuselect();
 			if (menuNo == 1) {
-
 				make.setting();
+				Time ti = new Time();
+				ti.start();
 				monuy = make.gaustRun(lId);
 				service.savingMonuy(monuy, lId);
 
@@ -204,8 +212,7 @@ public class PojangMacha extends Thread {
 				continue; // 비밀 번호는 변경한 후 다시 메뉴로 돌아가기 위해 컨티뉴, 원래 비번 바꾸고 다시 로그인은 국룰이지만
 
 			} else if (menuNo == 3) {
-
-				service.deleteuser(lId);
+				deleteuser();
 				sleeep(3);
 				return login(); // 탈퇴를 하고 다시 메뉴로 돌아가는것을 방지하기 위해
 
@@ -250,10 +257,10 @@ public class PojangMacha extends Thread {
 
 	private void logingList() {
 		System.out.println("       ┏━━━━━━━━━━━━━━━━━━━┓");
-		System.out.println("          1. 게임 시작       ");
-		System.out.println("          2. 내 정보         ");
-		System.out.println("          3. 상점            ");
-		System.out.println("          4. 로그아웃        ");
+		System.out.println("         1. 게임 시작       ");
+		System.out.println("         2. 내 정보         ");
+		System.out.println("         3. 상점            ");
+		System.out.println("         4. 로그아웃        ");
 		System.out.println("       ┗━━━━━━━━━━━━━━━━━━━┛");
 		System.out.print("선택 => ");
 	}
@@ -263,11 +270,11 @@ public class PojangMacha extends Thread {
 		System.out.println("\t   " + vo1.getName() + "님의 정보창");
 		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 		System.out.println("       ┏━━━━━━━━━━━━━━━━━━━┓");
-		System.out.println("          1. 내 정보 조회    ");
-		System.out.println("          2. 비밀번호 변경   ");
-		System.out.println("          3. 회원 탈퇴       ");
-		System.out.println("          4. 장비 보기       ");
-		System.out.println("          5. 돌아가기        ");
+		System.out.println("         1. 내 정보 조회    ");
+		System.out.println("         2. 비밀번호 변경   ");
+		System.out.println("         3. 회원 탈퇴       ");
+		System.out.println("         4. 장비 보기       ");
+		System.out.println("         5. 돌아가기        ");
 		System.out.println("       ┗━━━━━━━━━━━━━━━━━━━┛");
 		System.out.print("선택 => ");
 	}
@@ -289,7 +296,7 @@ public class PojangMacha extends Thread {
 			System.out.println("         변경에 실패하셨습니다");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 		}
-		sleeep(3);
+		sleeep(2);
 	}
 
 	private void deleteuser() {
@@ -318,7 +325,7 @@ public class PojangMacha extends Thread {
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 		}
 
-		sleeep(3);
+		sleeep(2);
 	}
 
 	public void gameRuner() {
@@ -337,7 +344,7 @@ public class PojangMacha extends Thread {
 		System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 		System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 		for (int i = 0; i < li.size(); i++) {
-			System.out.print("  " + (i + 1));
+			System.out.printf("  %s위 ",(i+1));
 			li.get(i).rank();
 			System.out.println();
 		}
@@ -376,6 +383,7 @@ public class PojangMacha extends Thread {
 
 	private void cleanerUpgade() { // 청소도구 업그레이드
 		make.cleannn(lId);
+		int monuy = service.userMonuy(lId);
 		int upgade1 = 10000; // 장비들의 가격
 		int upgade2 = 20000;
 		int upgade3 = 30000;
@@ -383,6 +391,7 @@ public class PojangMacha extends Thread {
 		if (havecleaner == 0) {
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("    붕어빵을 구울 때 떨어지는 청결도가 감소합니다. ");
+			System.out.printf("                               가진 돈 : %5s원",monuy);
 			System.out.println("                                  가격 : 10,000원");
 			System.out.println("          업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -409,6 +418,7 @@ public class PojangMacha extends Thread {
 		} else if (havecleaner == upgade1) {
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("    붕어빵을 구울 때 떨어지는 청결도가 감소합니다. ");
+			System.out.printf("                               가진 돈 : %5s원",monuy);
 			System.out.println("                                  가격 : 20,000원");
 			System.out.println("          업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -437,6 +447,7 @@ public class PojangMacha extends Thread {
 		} else if (havecleaner == upgade2) {
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("    붕어빵을 구울 때 떨어지는 청결도가 감소합니다. ");
+			System.out.printf("                               가진 돈 : %5s원",monuy);
 			System.out.println("                                  가격 : 30,000원");
 			System.out.println("          업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -470,12 +481,14 @@ public class PojangMacha extends Thread {
 
 	private void tleUpgade() { // 빵틀 업그레이드
 		make.cleannn(lId);
+		int monuy = service.userMonuy(lId);
 		int upgade1 = 10000; // 장비들의 가격
 		int upgade2 = 20000;
 		int upgade3 = 30000;
 		if (havetle == 0) {
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("    한번의 구울 수 있는 붕어빵의 갯수가 증가합니다 ");
+			System.out.printf("                               가진 돈 : %5s원",monuy);
 			System.out.println("                                  가격 : 10,000원");
 			System.out.println("          업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -503,6 +516,7 @@ public class PojangMacha extends Thread {
 		} else if (havetle == upgade1) {
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("    한번의 구울 수 있는 붕어빵의 갯수가 증가합니다 ");
+			System.out.printf("                               가진 돈 : %5s원",monuy);
 			System.out.println("                                  가격 : 20,000원");
 			System.out.println("          업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -531,6 +545,7 @@ public class PojangMacha extends Thread {
 		} else if (havetle == upgade2) {
 			System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
 			System.out.println("    한번의 구울 수 있는 붕어빵의 갯수가 증가합니다 ");
+			System.out.printf("                               가진 돈 : %5s원",monuy);
 			System.out.println("                                  가격 : 30,000원");
 			System.out.println("          업그레이드 하시겠습니까?  (Y/N) ");
 			System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
@@ -579,17 +594,12 @@ public class PojangMacha extends Thread {
 		System.out.println("         목록의 숫자만 입력해주세요");
 		System.out.println("   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
 	}
-	
+
 	static void GG() {
 		clearScreen();
-		System.out.println(" ██████╗     ██████╗ \r\n"
-				+ "██╔════╝    ██╔════╝ \r\n"
-				+ "██║  ███╗   ██║  ███╗\r\n"
-				+ "██║   ██║   ██║   ██║\r\n"
-				+ "╚██████╔╝██╗╚██████╔╝\r\n"
-				+ " ╚═════╝ ╚═╝ ╚═════╝ \r\n"
-				+ "                     \r\n"
-				+ "");
+		System.out.println(" ██████╗     ██████╗ \r\n" + "██╔════╝    ██╔════╝ \r\n" + "██║  ███╗   ██║  ███╗\r\n"
+				+ "██║   ██║   ██║   ██║\r\n" + "╚██████╔╝██╗╚██████╔╝\r\n" + " ╚═════╝ ╚═╝ ╚═════╝ \r\n"
+				+ "                     \r\n" + "");
 	}
 
 	public void mainba() {
@@ -643,6 +653,43 @@ public class PojangMacha extends Thread {
 				+ "                                                        |___/                           \r\n" + "");
 		System.out.println();
 		System.out.println();
+		System.out.println("             =======================================================");
+		System.out.println("               게임을 시작하려면 ENTER 또는 아무런 키를 입력하세요");
+		System.out.println("             =======================================================");
+		System.out.println();
+		try {
+			String x = scn.nextLine();
+
+		} catch (Exception e) {
+
+		}
+	}
+
+	public void mainba3() {
+		boolean isTrue = true;
+		
+		for (int i = 0; i < 10; i++) {
+			sleeep(0.3);
+			
+			System.out.println("   ___                                ___    ___                          _ \r\n"
+					+ "  / __\\ _   _  _ __    __ _  _   _   / __\\  / __\\  __ _  _ __    __ _    / \\\r\n"
+					+ " /__\\//| | | || '_ \\  / _` || | | | /__\\// /__\\// / _` || '_ \\  / _` |  /  /\r\n"
+					+ "/ \\/  \\| |_| || | | || (_| || |_| |/ \\/  \\/ \\/  \\| (_| || | | || (_| | /\\_/ \r\n"
+					+ "\\_____/ \\__,_||_| |_| \\__, | \\__,_|\\_____/\\_____/ \\__,_||_| |_| \\__, | \\/   \r\n"
+					+ "                      |___/                                     |___/       \r\n"
+					+ "                                                 _____                                  \r\n"
+					+ "                                                /__   \\ _   _   ___  ___    ___   _ __  \r\n"
+					+ "                                                  / /\\/| | | | / __|/ _ \\  / _ \\ | '_ \\ \r\n"
+					+ "                                                 / /   | |_| || (__| (_) || (_) || | | |\r\n"
+					+ "                                                 \\/     \\__, | \\___|\\___/  \\___/ |_| |_|\r\n"
+					+ "                                                        |___/                           \r\n"
+					+ "");
+
+			sleeep(0.3);
+			for (int j = 20; j >= 0; j-=3) {
+			System.out.println();
+			}
+		}
 		System.out.println("                 ============================================");
 		System.out.println("                   게임을 시작하려면 아무런 키를 입력하세요");
 		System.out.println("                 ============================================");
@@ -731,4 +778,87 @@ public class PojangMacha extends Thread {
 			}
 		}
 	}
+
+	private void miniGame() {
+		miniGameList();
+		int menuNo = menuselect();
+
+		if (menuNo == 1) {
+			movieGame();
+		} else if (menuNo == 2) {
+
+		} else if (menuNo == 3) {
+
+		} else if (menuNo == 4) {
+			System.out.print("니가 몇개 맞췄나면 => " + count);
+		} else if (menuNo == 5) {
+		} else {
+			PojangMacha.outOfRange();
+		}
+
+	}
+
+	private void movieGame2(String m2) {
+		while (true) {
+			miniGameList2();
+			int menuNo = menuselect();
+
+			if (menuNo == 1) {
+				System.out.print("정답을 입력해주세요 => ");
+				String m = scn.nextLine();
+				if (m.equals(m2)) {
+					System.out.println("정답입니다!");
+					count++;
+					break;
+				}
+			} else if (menuNo == 2) {
+
+			} else if (menuNo == 3) {
+				break;
+			} else {
+				PojangMacha.outOfRange();
+			}
+		}
+	}
+
+	private void movieGame() {
+
+		String[] movie = { "가나다라", "가나다하라", "가노나어쥬다라", "가나우융나다라", "가라", "가ㅋ다라", };
+		while (true) {
+			System.out.println("영화 제목을 맞추는 게임입니다.");
+			int x = (int) (movie.length * (Math.random()));
+			System.out.println(movie[x].length() + "글자의 영화입니다.");
+			System.out.println(movie[x]);
+			movieGame2(movie[x]);
+
+		}
+
+	}
+
+	private void miniGameList2() {
+
+		System.out.println("\t\t ┏━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("\t\t   1. 정답!   ");
+		System.out.println("\t\t   2. 힌트좀 주세요..    ");
+		System.out.println("\t\t   3. 돌아가기       ");
+		System.out.println("\t\t ┗━━━━━━━━━━━━━━━━━━━┛");
+
+		System.out.print("선택 => ");
+	}
+
+	private void miniGameList() {
+		System.out.println("\t\t ┏━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("\t\t      미 니 게 임     ");
+		System.out.println("\t\t ┗━━━━━━━━━━━━━━━━━━━┛");
+		System.out.println("\t\t ┏━━━━━━━━━━━━━━━━━━━┓");
+		System.out.println("\t\t   1. 영화 맞추기    ");
+		System.out.println("\t\t   2.     ");
+		System.out.println("\t\t   3.     ");
+		System.out.println("\t\t   4. 몇개 맞췄나?      ");
+		System.out.println("\t\t   5. 돌아가기       ");
+		System.out.println("\t\t ┗━━━━━━━━━━━━━━━━━━━┛");
+
+		System.out.print("선택 => ");
+	}
+
 }
